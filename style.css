@@ -1,0 +1,42 @@
+body {
+  background-color: #efefef;
+  font-family: Helvetica,sans-serif;
+}
+svg {
+  border: 1px solid #ccc;
+  background-color: white;
+}
+svg line{
+    stroke: grey;
+    stroke-width: 2;
+}
+
+svg circle{
+    stroke: red;
+    fill: none;
+    stroke-width: 2;
+}
+
+svg rect{
+    stroke: steelblue;
+    fill: none;
+    stroke-width: 2;
+}
+
+svg polygon{
+    stroke: white;
+    fill: steelblue;
+    stroke-width: 2;
+    color:red;
+}
+svg text{
+    color: white;
+    fill: white;
+    font-size: 10px;
+}
+svg text.big-name {
+    font-size: 15px;
+}
+svg polygon.milestone {
+    fill: GoldenRod;
+}
