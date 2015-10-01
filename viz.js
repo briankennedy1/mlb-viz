@@ -1,7 +1,7 @@
 // Visualizing my MLB data with D3
 (function() {
-  var canvasWidth = 900,
-      canvasHeight = 1200,
+  var canvasWidth = 1800,
+      canvasHeight = 2400,
       dWidth  = 75,
       dHeight = 75;
 
@@ -51,14 +51,6 @@
   }
 
   function drawOnBoard(diamondsToBuild) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (xhttp.readyState == 4 && xhttp.status == 200) {
-        diamondsToBuild = xhttp.responseText;
-      }
-    };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=bondb001&event_type=home_runs&year=2001", true);
-    xhttp.send();
 
     var diamondCount = 0,
         upMost      = [0, 0],
@@ -73,12 +65,12 @@
       // Set upMost, leftMost, rightMost, downMost.
         if (diamondCount === 0) {
           drawDiamond(
-            [450, 0],
+            [900, 0],
             diamondsToBuild[diamondCount]
           );
           diamondCount += 1;
 
-          upMost    = [450, 0];
+          upMost    = [900, 0];
           rightMost = [upMost[0] + dWidth/2, dHeight/2];
           downMost  = [upMost[0], dHeight];
           leftMost  = [upMost[0] - dWidth/2, dHeight/2];
@@ -161,7 +153,16 @@
     }
 
   }
-
-  drawOnBoard();
-
+  function requestDiamonds() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        diamondsToBuild = JSON.parse(xhttp.responseText);
+        drawOnBoard(diamondsToBuild);
+      }
+    };
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=troum001&event_type=triples", true);
+    xhttp.send();
+  }
+requestDiamonds()
 })();
