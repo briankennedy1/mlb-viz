@@ -22,11 +22,10 @@
         left   = (x - dWidth/2).toString() + "," + (y + dHeight/2).toString(),
         points = top + " " + right + " " + bottom + " " + left;
 
-
-    var big_text = info[0],
-        career   = info[1],
-        season   = info[2],
-        game     = info[3];
+    var big_text = info.event_cd,
+        career   = info.batter_career_home_run,
+        season   = info.batter_season_home_run,
+        game     = info.batter_game_home_run;
 
     var diamond = svg.append("polygon")
                     .attr("points", points)
@@ -52,19 +51,14 @@
   }
 
   function drawOnBoard(diamondsToBuild) {
-    diamondsToBuild = [
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-      [['HR','503','5','2']],
-
-      ];
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        diamondsToBuild = xhttp.responseText;
+      }
+    };
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=bondb001&event_type=home_runs&year=2001", true);
+    xhttp.send();
 
     var diamondCount = 0,
         upMost      = [0, 0],
@@ -80,8 +74,7 @@
         if (diamondCount === 0) {
           drawDiamond(
             [450, 0],
-            diamondsToBuild[diamondCount][0],
-            diamondsToBuild[diamondCount][1]
+            diamondsToBuild[diamondCount]
           );
           diamondCount += 1;
 
@@ -98,8 +91,7 @@
       // Place next diamond at leftMost position
       drawDiamond(
         leftMost,
-        diamondsToBuild[diamondCount][0],
-        diamondsToBuild[diamondCount][1]
+        diamondsToBuild[diamondCount]
       );
       diamondCount += 1;
 
@@ -116,8 +108,7 @@
       // Place next diamond at rightMost position
       drawDiamond(
         rightMost,
-        diamondsToBuild[diamondCount][0],
-        diamondsToBuild[diamondCount][1]
+        diamondsToBuild[diamondCount]
       );
       diamondCount += 1;
 
@@ -135,8 +126,7 @@
       // Place next diamond at the markerLeft position
       drawDiamond(
         markerLeft,
-        diamondsToBuild[diamondCount][0],
-        diamondsToBuild[diamondCount][1]
+        diamondsToBuild[diamondCount]
       );
       diamondCount += 1;
 
@@ -158,8 +148,7 @@
       // Place next diamond at the markerRight position
       drawDiamond(
         markerRight,
-        diamondsToBuild[diamondCount][0],
-        diamondsToBuild[diamondCount][1]
+        diamondsToBuild[diamondCount]
       );
       diamondCount += 1;
 
