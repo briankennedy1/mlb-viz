@@ -10,8 +10,8 @@
   svg.attr("height", canvasHeight)
      .attr("width", canvasWidth);
 
-  function drawDiamond(location, info, cssClass) {
-    cssClass = cssClass || 'diamondShape';
+  function drawDiamond(location, info) {
+    var cssClass = 'diamondShape';
 
     var x = location[0],
         y = location[1];
@@ -22,31 +22,82 @@
         left   = (x - dWidth/2).toString() + "," + (y + dHeight/2).toString(),
         points = top + " " + right + " " + bottom + " " + left;
 
-    var big_text = info.event_cd,
-        career   = info.batter_career_home_run,
-        season   = info.batter_season_home_run,
-        game     = info.batter_game_home_run;
+        var big_text, career, season, game;
+
+        // var big_text = info.event_cd,
+        //     career   = info.batter_career_home_run,
+        //     season   = info.batter_season_home_run,
+        //     game     = info.batter_game_home_run;
+
+    switch (info.event_cd) {
+      case 20:
+        big_text = '1B';
+        cssClass = 'single';
+        career = info.batter_career_single;
+        season = info.batter_season_single;
+        game   = info.batter_game_single;
+        break;
+      case 21:
+        big_text = '2B';
+        cssClass = 'double';
+        career = info.batter_career_double;
+        season = info.batter_season_double;
+        game   = info.batter_game_double;
+        break;
+      case 22:
+        big_text = '3B';
+        cssClass = 'triple';
+        career = info.batter_career_triple;
+        season = info.batter_season_triple;
+        game   = info.batter_game_triple;
+        break;
+      case 23:
+        big_text = 'HR';
+        cssClass = 'homer';
+        career = info.batter_career_home_run;
+        season = info.batter_season_home_run;
+        game   = info.batter_game_home_run;
+        break;
+      default:
+        big_text = 'NA';
+    }
+
+    if (info.batter_career_hit == 1) {
+      cssClass = cssClass + ' milestone';
+    }
+    if (info.batter_career_single == 1) {
+      cssClass = cssClass + ' milestone';
+    }
+    if (info.batter_career_double == 1) {
+      cssClass = cssClass + ' milestone';
+    }
+    if (info.batter_career_triple == 1) {
+      cssClass = cssClass + ' milestone';
+    }
+    if (info.batter_career_home_run == 1) {
+      cssClass = cssClass + ' milestone';
+    }
 
     var diamond = svg.append("polygon")
                     .attr("points", points)
                     .attr('class', cssClass);
                   svg.append("text")
-                      .attr("x", x-(dWidth/5))
-                      .attr("y", y+(dHeight/2))
+                      .attr("x", x-(dWidth/7.5))
+                      .attr("y", y+(dHeight/2.2))
                       .text(big_text)
                       .attr('class','big-name');
                   svg.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.6))
-                      .text('C: ' + career )
+                      .text('C: ' + career );
                   svg.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.7))
-                      .text('S: ' + season)
+                      .text('S: ' + season);
                   svg.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.8))
-                      .text('G: ' + game)
+                      .text('G: ' + game);
   return diamond;
   }
 
@@ -87,7 +138,7 @@
       );
       diamondCount += 1;
 
-      if (diamondCount == diamondsToBuild.length) {return};
+      if (diamondCount == diamondsToBuild.length) {return;}
       // Set new leftMost position
       leftMost   = [leftMost[0] - dWidth/2, leftMost[1] + dHeight/2];
       // Set new markerLeft at diamond's right point
@@ -104,7 +155,7 @@
       );
       diamondCount += 1;
 
-      if (diamondCount == diamondsToBuild.length) {return};
+      if (diamondCount == diamondsToBuild.length) {return;}
       // Set new rightMost position
       rightMost   = [rightMost[0] + dWidth/2, rightMost[1] + dHeight/2];
       // Set new markerRight at diamond's left point
@@ -122,11 +173,11 @@
       );
       diamondCount += 1;
 
-      if (diamondCount == diamondsToBuild.length) {return};
+      if (diamondCount == diamondsToBuild.length) {return;}
 
       // If the top point of this diamond == downMost then we're done with this row
       if (markerLeft[0] == downMost[0] && markerLeft[1] == downMost[1]) {
-        downMost = [downMost[0], downMost[1]+ dWidth]
+        downMost = [downMost[0], downMost[1]+ dWidth];
         drawLeftMost();
       } else {
         // We keep going and set a new markerLeft position
@@ -144,7 +195,7 @@
       );
       diamondCount += 1;
 
-      if (diamondCount == diamondsToBuild.length) {return};
+      if (diamondCount == diamondsToBuild.length) {return;}
       // Set new markerRight position
       markerRight = [markerRight[0] - dWidth/2, markerRight[1] + dHeight/2];
 
@@ -161,8 +212,8 @@
         drawOnBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=troum001&event_type=triples", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=beltb001&event_type=hits", true);
     xhttp.send();
   }
-requestDiamonds()
+requestDiamonds();
 })();

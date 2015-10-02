@@ -32,11 +32,23 @@ svg polygon{
 svg text{
     color: white;
     fill: white;
-    font-size: 10px;
+    font-size: 8px;
 }
 svg text.big-name {
-    font-size: 15px;
+    font-size: 16px;
+}
+svg polygon.single {
+  fill: #7B4397;
+}
+svg polygon.double {
+  fill: #973A79;
+}
+svg polygon.triple {
+  fill: #B92F55;
+}
+svg polygon.homer {
+  fill: #DC2430;
 }
 svg polygon.milestone {
-    fill: GoldenRod;
+  fill: GoldenRod;
 }
