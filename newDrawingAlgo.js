@@ -3,6 +3,7 @@ function drawBoard(diamondsToBuild){
   // The board is the widest when the number of rows is equal to the square root of the number to build rounded up.
   var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount));
 }
+
 // var widestRow = Square root of number of diamonds to build ALWAYS rounded up to whole number
 // while diamondCount <= diamondsToBuild
   // var rowWidth = 1
