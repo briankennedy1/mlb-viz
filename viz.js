@@ -2,6 +2,7 @@
 (function() {
   var canvasWidth = 1800,
       canvasHeight = 2400,
+      // Set the height / width of the diamond objects
       dWidth  = 75,
       dHeight = 75;
 
@@ -93,7 +94,7 @@
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.8))
                       .text('G: ' + game);
-  return diamond;
+    return diamond;
   }
 
   function drawBoard(diamondsToBuild){
@@ -101,7 +102,9 @@
         diamondsToBuildCount = diamondsToBuild.length;
 
     // The board is the widest when the current row is equal to the square root of the number to build rounded up.
-    var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount));
+    var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount)),
+        // When the widest row has been built, we will turn shrink mode on
+        shrink = false;
 
     // Draw diamonds while there are diamonds to build
     var rowWidth = 1, // Start at row 1. The board is a square turned 45
@@ -126,14 +129,27 @@
       }
       // Reset diamond count
       diamondsInRow = 0;
-      // Increment rowWidth
-      rowWidth++;
-      // Move the start of the next row down and to the left
-      rowStart[0] -= dWidth/2;
-      rowStart[1] += dHeight/2;
+      if (rowWidth  == widestRow) {
+        shrink = true;
+      }
+      if (shrink === false) {
+        // Increment rowWidth
+        rowWidth++;
+        // Move the start of the next row down and to the left
+        rowStart[0] -= dWidth/2;
+        rowStart[1] += dHeight/2;
+      } else {
+        // Decrement rowWidth
+        rowWidth--;
+        // Move the start of the next row down and to the right
+        rowStart[0] += dWidth/2;
+        rowStart[1] += dHeight/2;
+      }
       // Set coords to the VALUE of rowStart
       coords = rowStart.slice();
+
     }
+    // TO DO: Skinny the rows once they hid max width
 
   }
 
@@ -145,7 +161,7 @@
         drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=beltb001&event_type=doubles", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=troum001&event_type=hits", true);
     xhttp.send();
   }
 requestDiamonds();
