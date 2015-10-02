@@ -24,11 +24,6 @@
 
         var big_text, career, season, game;
 
-        // var big_text = info.event_cd,
-        //     career   = info.batter_career_home_run,
-        //     season   = info.batter_season_home_run,
-        //     game     = info.batter_game_home_run;
-
     switch (info.event_cd) {
       case 20:
         big_text = '1B';
@@ -101,118 +96,56 @@
   return diamond;
   }
 
-  function drawOnBoard(diamondsToBuild) {
-
+  function drawBoard(diamondsToBuild){
     var diamondCount = 0,
-        upMost      = [0, 0],
-        rightMost   = [0, 0],
-        downMost    = [0, 0],
-        leftMost    = [0, 0],
-        markerLeft  = [0, 0],
-        markerRight = [0, 0];
+        diamondsToBuildCount = diamondsToBuild.length;
 
-    while (diamondCount < diamondsToBuild.length) {
-      // Place one diamond.
-      // Set upMost, leftMost, rightMost, downMost.
-        if (diamondCount === 0) {
-          drawDiamond(
-            [900, 0],
-            diamondsToBuild[diamondCount]
-          );
-          diamondCount += 1;
+    // The board is the widest when the current row is equal to the square root of the number to build rounded up.
+    var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount));
 
-          upMost    = [900, 0];
-          rightMost = [upMost[0] + dWidth/2, dHeight/2];
-          downMost  = [upMost[0], dHeight];
-          leftMost  = [upMost[0] - dWidth/2, dHeight/2];
-        } else {
-          drawLeftMost();
-        }
-    }
+    // Draw diamonds while there are diamonds to build
+    var rowWidth = 1, // Start at row 1. The board is a square turned 45
+                      // degrees, so row width and number of diamonds in
+                      // a row are the same.
+        diamondsInRow = 0, // Current count of diamonds in row
+        rowStart      = [900,0], // Where to start the row.
+        coords        = [900,0]; // Where to start the first diamond.
 
-    function drawLeftMost() {
-      // Place next diamond at leftMost position
-      drawDiamond(
-        leftMost,
-        diamondsToBuild[diamondCount]
-      );
-      diamondCount += 1;
-
-      if (diamondCount == diamondsToBuild.length) {return;}
-      // Set new leftMost position
-      leftMost   = [leftMost[0] - dWidth/2, leftMost[1] + dHeight/2];
-      // Set new markerLeft at diamond's right point
-      markerLeft = [leftMost[0] + dWidth, leftMost[1]];
-      // Move on to the right side of the diamond
-      drawRightMost();
-    }
-
-    function drawRightMost() {
-      // Place next diamond at rightMost position
-      drawDiamond(
-        rightMost,
-        diamondsToBuild[diamondCount]
-      );
-      diamondCount += 1;
-
-      if (diamondCount == diamondsToBuild.length) {return;}
-      // Set new rightMost position
-      rightMost   = [rightMost[0] + dWidth/2, rightMost[1] + dHeight/2];
-      // Set new markerRight at diamond's left point
-      markerRight = [rightMost[0] - dWidth, rightMost[1]];
-
-      // Move on to the left side of the diamond
-      drawMarkerLeft();
-    }
-
-    function drawMarkerLeft() {
-      // Place next diamond at the markerLeft position
-      drawDiamond(
-        markerLeft,
-        diamondsToBuild[diamondCount]
-      );
-      diamondCount += 1;
-
-      if (diamondCount == diamondsToBuild.length) {return;}
-
-      // If the top point of this diamond == downMost then we're done with this row
-      if (markerLeft[0] == downMost[0] && markerLeft[1] == downMost[1]) {
-        downMost = [downMost[0], downMost[1]+ dWidth];
-        drawLeftMost();
-      } else {
-        // We keep going and set a new markerLeft position
-        markerLeft = [markerLeft[0] + dWidth/2, markerLeft[1] + dHeight/2];
-        // Head over to the right side of the diamond
-        drawMarkerRight();
+    while (diamondCount <= diamondsToBuildCount) {
+      while (diamondsInRow < rowWidth) {
+        // Draw diamond at current coords and pass JSON content as arg
+        drawDiamond(coords, diamondsToBuild[diamondCount]);
+        // Increment diamondCount
+        diamondCount++;
+        // Break out if we've drawn every diamond we need
+        if (diamondCount == diamondsToBuildCount) { return; }
+        // Increment diamondsInRow
+        diamondsInRow++;
+        // Set coords for next diamond one diamond width to the right
+        coords[0] += dWidth;
       }
-    }
-
-    function drawMarkerRight() {
-      // Place next diamond at the markerRight position
-      drawDiamond(
-        markerRight,
-        diamondsToBuild[diamondCount]
-      );
-      diamondCount += 1;
-
-      if (diamondCount == diamondsToBuild.length) {return;}
-      // Set new markerRight position
-      markerRight = [markerRight[0] - dWidth/2, markerRight[1] + dHeight/2];
-
-      // Head back over to the left side of the diamond
-      drawMarkerLeft();
+      // Reset diamond count
+      diamondsInRow = 0;
+      // Increment rowWidth
+      rowWidth++;
+      // Move the start of the next row down and to the left
+      rowStart[0] -= dWidth/2;
+      rowStart[1] += dHeight/2;
+      // Set coords to the VALUE of rowStart
+      coords = rowStart.slice();
     }
 
   }
+
   function requestDiamonds() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         diamondsToBuild = JSON.parse(xhttp.responseText);
-        drawOnBoard(diamondsToBuild);
+        drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=beltb001&event_type=hits", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=beltb001&event_type=doubles", true);
     xhttp.send();
   }
 requestDiamonds();
