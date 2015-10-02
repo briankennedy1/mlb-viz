@@ -58,20 +58,26 @@
         big_text = 'NA';
     }
 
-    if (info.batter_career_hit == 1) {
+    if (career == 1) {
       cssClass = cssClass + ' milestone';
     }
-    if (info.batter_career_single == 1) {
+    if (career % 100 === 0) {
       cssClass = cssClass + ' milestone';
     }
-    if (info.batter_career_double == 1) {
-      cssClass = cssClass + ' milestone';
+    if (game == 2) {
+      cssClass = cssClass + ' two';
     }
-    if (info.batter_career_triple == 1) {
-      cssClass = cssClass + ' milestone';
+    if (game == 3) {
+      cssClass = cssClass + ' three';
     }
-    if (info.batter_career_home_run == 1) {
-      cssClass = cssClass + ' milestone';
+    if (game == 4) {
+      cssClass = cssClass + ' four';
+    }
+    if (game == 5) {
+      cssClass = cssClass + ' five';
+    }
+    if (game == 6) {
+      cssClass = cssClass + ' six';
     }
 
     var diamond = svg.append("polygon")

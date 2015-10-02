@@ -38,17 +38,32 @@ svg text.big-name {
     font-size: 16px;
 }
 svg polygon.single {
-  fill: #7B4397;
+  fill: #0392cf;
 }
 svg polygon.double {
-  fill: #973A79;
+  fill: #7bc043;
 }
 svg polygon.triple {
-  fill: #B92F55;
+  fill: #f4874e;
+}
+svg polygon.triple.two {
+  fill: #f2671e;
+}
+svg polygon.triple.three {
+  fill: #d0500c;
 }
 svg polygon.homer {
-  fill: #DC2430;
+  fill: #ee4035;
+}
+svg polygon.homer.two {
+  fill: #be332a;
+}
+svg polygon.homer.three {
+  fill: #8e261f;
+}
+svg polygon.homer.four {
+  fill: #5f1915;
 }
 svg polygon.milestone {
-  fill: GoldenRod;
+  fill: black;
 }
