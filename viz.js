@@ -7,7 +7,7 @@
       dHeight = 75;
 
   var zoom = d3.behavior.zoom()
-      .scaleExtent([0.2, 1])
+      .scaleExtent([0.2, 2])
       .on("zoom", zoomed);
 
   var drag = d3.behavior.drag()
@@ -181,7 +181,7 @@
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         diamondsToBuild = JSON.parse(xhttp.responseText);
         $('.sk-folding-cube').remove();
-        $('body').append('<div class="controls">YOYOYOY</div>');
+        $('body').append('<div class="ui card controls"><div class="content"><a class="header">'+ diamondsToBuild[0].bat_id +' </a><div class="meta"><span class="date">'+ diamondsToBuild[0].event_cd +'</span></div><div class="description">Kristy is an art director living in New York.</div></div><div class="extra content"><a><i class="cubes icon"></i>'+ diamondsToBuild.length +' diamonds</a></div></div>');
 
         drawBoard(diamondsToBuild);
       }

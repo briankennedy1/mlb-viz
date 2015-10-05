@@ -1,8 +1,4 @@
-body {
-  background-color: #efefef;
-  font-family: Helvetica,sans-serif;
-}
-.controls {
+.ui.card.controls {
   position: absolute;
   top: 20px;
   left: 30px;
