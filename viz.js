@@ -174,7 +174,8 @@
 
   }
 
-  function requestDiamonds() {
+  function requestDiamonds(player) {
+    player = player || 'bondb001';
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -182,12 +183,22 @@
         $('.sk-folding-cube').remove();
         $('.controls .header').text(diamondsToBuild[0].bat_id);
         $('.controls .extra.content a').html('<i class="cubes icon"></i>' +diamondsToBuild.length+ ' diamonds');
+        $('.ui.dropdown').dropdown({
+          onChange: function(value, text, $selectedItem) {
+            // kill all current diamonds
+            // show loading screen
+            // send get request
+            // reload diamonds
+            requestDiamonds(value)
+          }
+
+        });
         $('.controls').toggle();
 
         drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=cabrm001&event_type=triples", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player + "&event_type=triples", true);
     xhttp.send();
   }
   function zoomed() {
