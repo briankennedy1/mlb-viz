@@ -1,15 +1,31 @@
 // Visualizing my MLB data with D3
 (function() {
-  var canvasWidth = 1800,
-      canvasHeight = 2400,
+  var canvasWidth = 1200,
+      canvasHeight = 650,
       // Set the height / width of the diamond objects
       dWidth  = 75,
       dHeight = 75;
 
-  var svg = d3.select("body").append("svg");
+  var zoom = d3.behavior.zoom()
+      .scaleExtent([0.2, 1])
+      .on("zoom", zoomed);
+
+  var drag = d3.behavior.drag()
+      .origin(function(d) { return d; })
+      .on("dragstart", dragstarted)
+      .on("drag", dragged)
+      .on("dragend", dragended);
+
+  var svg = d3.select("body").append("svg")
+                             .call(zoom);
+
+  var container = svg.append("g");
+
+  $('body').append('<div class="sk-folding-cube"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div>');
 
   svg.attr("height", canvasHeight)
      .attr("width", canvasWidth);
+
 
   function drawDiamond(location, info) {
     var cssClass = 'diamondShape';
@@ -80,23 +96,23 @@
       cssClass = cssClass + ' six';
     }
 
-    var diamond = svg.append("polygon")
+    var diamond = container.append("polygon")
                     .attr("points", points)
                     .attr('class', cssClass);
-                  svg.append("text")
+                  container.append("text")
                       .attr("x", x-(dWidth/7.5))
                       .attr("y", y+(dHeight/2.2))
                       .text(big_text)
                       .attr('class','big-name');
-                  svg.append("text")
+                  container.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.6))
                       .text('C: ' + career );
-                  svg.append("text")
+                  container.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.7))
                       .text('S: ' + season);
-                  svg.append("text")
+                  container.append("text")
                       .attr("x", x-(dWidth/11))
                       .attr("y", y+(dHeight*0.8))
                       .text('G: ' + game);
@@ -117,8 +133,8 @@
                       // degrees, so row width and number of diamonds in
                       // a row are the same.
         diamondsInRow = 0, // Current count of diamonds in row
-        rowStart      = [900,0], // Where to start the row.
-        coords        = [900,0]; // Where to start the first diamond.
+        rowStart      = [600,0], // Where to start the row.
+        coords        = [600,0]; // Where to start the first diamond.
 
     while (diamondCount <= diamondsToBuildCount) {
       while (diamondsInRow < rowWidth) {
@@ -164,11 +180,31 @@
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         diamondsToBuild = JSON.parse(xhttp.responseText);
+        $('.sk-folding-cube').remove();
+        $('body').append('<div class="controls">YOYOYOY</div>');
+
         drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=troum001&event_type=hits", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=cabrm001&event_type=triples", true);
     xhttp.send();
   }
-requestDiamonds();
+  function zoomed() {
+    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+  function dragstarted(d) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+  }
+
+  function dragged(d) {
+    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  }
+
+  function dragended(d) {
+    d3.select(this).classed("dragging", false);
+  }
+
+  requestDiamonds();
 })();
