@@ -28,6 +28,7 @@
 
 
   function drawDiamond(location, info) {
+    // kill all diamonds
     var cssClass = 'diamondShape';
 
     var x = location[0],
@@ -97,25 +98,25 @@
     }
 
     var diamond = container.append("polygon")
-                    .attr("points", points)
-                    .attr('class', cssClass);
-                  container.append("text")
-                      .attr("x", x-(dWidth/7.5))
-                      .attr("y", y+(dHeight/2.2))
-                      .text(big_text)
-                      .attr('class','big-name');
-                  container.append("text")
-                      .attr("x", x-(dWidth/11))
-                      .attr("y", y+(dHeight*0.6))
-                      .text('C: ' + career );
-                  container.append("text")
-                      .attr("x", x-(dWidth/11))
-                      .attr("y", y+(dHeight*0.7))
-                      .text('S: ' + season);
-                  container.append("text")
-                      .attr("x", x-(dWidth/11))
-                      .attr("y", y+(dHeight*0.8))
-                      .text('G: ' + game);
+                      .attr("points", points)
+                      .attr('class', cssClass);
+                    container.append("text")
+                        .attr("x", x-(dWidth/7.5))
+                        .attr("y", y+(dHeight/2.2))
+                        .text(big_text)
+                        .attr('class','big-name');
+                    container.append("text")
+                        .attr("x", x-(dWidth/11))
+                        .attr("y", y+(dHeight*0.6))
+                        .text('C: ' + career );
+                    container.append("text")
+                        .attr("x", x-(dWidth/11))
+                        .attr("y", y+(dHeight*0.7))
+                        .text('S: ' + season);
+                    container.append("text")
+                        .attr("x", x-(dWidth/11))
+                        .attr("y", y+(dHeight*0.8))
+                        .text('G: ' + game);
     return diamond;
   }
 
@@ -175,25 +176,30 @@
   }
 
   function requestDiamonds(player) {
-    player = player || 'bondb001';
+    player = player || 'poseb001';
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         diamondsToBuild = JSON.parse(xhttp.responseText);
-        $('.sk-folding-cube').remove();
-        $('.controls .header').text(diamondsToBuild[0].bat_id);
+        $('.sk-folding-cube').toggle();
         $('.controls .extra.content a').html('<i class="cubes icon"></i>' +diamondsToBuild.length+ ' diamonds');
         $('.ui.dropdown').dropdown({
           onChange: function(value, text, $selectedItem) {
             // kill all current diamonds
             // show loading screen
+            $('.controls .header').text(text);
+            $('.sk-folding-cube').toggle();
+            $('g').children().fadeOut(500,function() {
+              $(this).remove();
+              // requestDiamonds(value);
+            });
             // send get request
             // reload diamonds
-            requestDiamonds(value)
+
           }
 
         });
-        $('.controls').toggle();
+        $('.controls').show();
 
         drawBoard(diamondsToBuild);
       }
