@@ -175,9 +175,9 @@
   }
 
   function requestDiamonds(player_id, player_text, event_type) {
-    player_id = player_id || 'poseb001';
-    player_text = player_text || 'Buster Posey';
-    event_type = event_type || 'triples';
+    player_id   = player_id || 'bondb001';
+    player_text = player_text || 'Barry Bonds';
+    event_type  = event_type || 'triples';
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -189,7 +189,7 @@
         // Stop loading spinner
         $('.sk-folding-cube').hide(function(){
           // Fade in the diamonds
-          $('g').fadeIn(500);
+          $('g').fadeIn(200);
           // Fill in the number of diamonds to the control card
           $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
           $('.header').text(player_text);
@@ -230,14 +230,12 @@
     });
   }
 
-  function clearDiamondBoard(callback) {
-    $('g').fadeOut(200,function(){
-      $('.sk-folding-cube').show();
-      $('g').children().remove();
-      $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
-      $('.controls .header').text('Loading...');
-      callback;
-    });
+  function clearDiamondBoard() {
+    $('g').hide();
+    $('g').children().remove();
+    $('.sk-folding-cube').show();
+    $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
+    $('.controls .header').text('Loading...');
   }
 
   function zoomed() {
