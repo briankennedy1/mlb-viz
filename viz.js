@@ -189,11 +189,12 @@
         // Stop loading spinner
         $('.sk-folding-cube').hide(function(){
           // Fade in the diamonds
-          $('g').fadeIn(200);
+          $('g').fadeIn(300);
           // Fill in the number of diamonds to the control card
           $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
           $('.header').text(player_text);
           $('.header').attr('data-value',player_id);
+          $('.filters').children().removeClass('disabled');
         });
 
       }
@@ -208,8 +209,10 @@
         player_id = value;
         player_text = text;
         var event_type = $('.filters .button.active').attr('data-value');
-        var diamondCallback = requestDiamonds(player_id, player_text, event_type);
-        clearDiamondBoard(diamondCallback);
+        // Clear the diamond board first and then make the diamond request
+        clearDiamondBoard(function(){
+          requestDiamonds(player_id, player_text, event_type);
+        });
       }
     });
   }
@@ -219,23 +222,31 @@
     $('body').on('click','.filters .button', function() {
       // Remove the active class from all buttons
       $('.filters').children().removeClass('active');
+      // Disable all buttons while request is being made
+      $('.filters').children().addClass('disabled');
       // Add the active class to the button that was clicked on
       $(this).addClass('active');
       // Capture the search term from the button that was clicked on
       var event_type = $(this).attr('data-value');
-      var player = $('.controls .header').attr('data-value');
+      // Capture the player_id and text from .header on the controls
+      var player_id = $('.controls .header').attr('data-value');
       var player_text = $('.controls .header').text();
-      var diamondRequest = requestDiamonds(player, player_text, event_type);
-      clearDiamondBoard(diamondRequest);
+      // Clear the diamond board first and then make the diamond request
+      clearDiamondBoard(function(){
+        requestDiamonds(player_id, player_text, event_type);
+      });
     });
   }
 
-  function clearDiamondBoard() {
-    $('g').hide();
-    $('g').children().remove();
-    $('.sk-folding-cube').show();
-    $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
-    $('.controls .header').text('Loading...');
+  function clearDiamondBoard(callback) {
+    // Good place to reset zoom and center of screen
+      $('g').hide(300, function(){
+        $('.sk-folding-cube').show();
+        $('g').children().remove();
+        $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
+        $('.controls .header').text('Loading...');
+        callback();
+      });
   }
 
   function zoomed() {
