@@ -19,7 +19,7 @@
       .on("drag", dragged)
       .on("dragend", dragended);
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select(".board-container").append("svg")
                              .call(zoom);
 
   var container = svg.append("g");
@@ -191,10 +191,12 @@
           // Fade in the diamonds
           $('g').fadeIn(300);
           // Fill in the number of diamonds to the control card
-          $('.controls .extra.content a').html('<i class="cubes icon"></i>' + response.length + ' diamonds');
+          $('.controls .meta').html('<i class="cubes icon"></i> ' + response.length + ' diamonds');
           $('.header').text(player_text);
           $('.header').attr('data-value',player_id);
           $('.filters').children().removeClass('disabled');
+          $('.search').dropdown('clear');
+          $('.ui.selection.dropdown').removeClass('disabled');
         });
       })
       .error(function(response){
@@ -205,14 +207,19 @@
   function playerSearchListener(){
     $('.ui.dropdown').dropdown({
       onChange: function(value, text, $selectedItem) {
-        // Set player info from dropdown menu
-        player_id = value;
-        player_text = text;
-        var event_type = $('.filters .button.active').attr('data-value');
-        // Clear the diamond board first and then make the diamond request
-        clearDiamondBoard(function(){
-          requestDiamonds(player_id, player_text, event_type);
-        });
+        if (!value) {
+          return;
+        } else {
+          // Set player info from dropdown menu
+          player_id = value;
+          player_text = text;
+          var event_type = $('.filters .button.active').attr('data-value');
+          // Clear the diamond board first and then make the diamond request
+          clearDiamondBoard(function(){
+            requestDiamonds(player_id, player_text, event_type);
+          });
+          $('.ui.selection.dropdown').addClass('disabled');
+        }
       }
     });
   }
@@ -243,7 +250,7 @@
       $('g').hide(300, function(){
         $('.sk-folding-cube').show();
         $('g').children().remove();
-        $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
+        $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
         $('.controls .header').text('Loading...');
         callback();
       });
