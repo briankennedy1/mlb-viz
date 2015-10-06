@@ -8,6 +8,9 @@ svg {
   border: 1px solid #ccc;
   background-color: white;
 }
+svg g {
+  display: none;
+}
 svg line{
     stroke: grey;
     stroke-width: 2;

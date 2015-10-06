@@ -13,12 +13,12 @@
 <body>
   <div class="ui card controls">
     <div class="content">
-      <a class="header">Player Name</a>
+      <a class="header">Buster Posey</a>
       <div class="meta">
-        <span class="date">Other info</span>
+        <span class="date">C: Career, S: Season, G: Game</span>
       </div>
       <div class="description">
-        <div class="ui fluid search selection dropdown">
+        <div class="ui fluid search selection dropdown segment">
           <input type="hidden" name="country">
           <i class="search icon"></i>
           <div class="default text">Search Players</div>
@@ -29,10 +29,16 @@
             <div class="item" data-value="cabrm001">Miguel Cabrera</div>
           </div>
         </div>
+        <div class="four ui buttons filters">
+          <div class="ui button" data-value="singles">1B</div>
+          <div class="ui button" data-value="doubles">2B</div>
+          <div class="ui button active" data-value="triples">3B</div>
+          <div class="ui button" data-value="home_runs">HR</div>
       </div>
+        </div>
     </div>
     <div class="extra content">
-      <a>### diamonds</a>
+      <a><i class="cubes icon"></i> ? diamonds</a>
     </div>
   </div>
   <script language="javascript" type="text/javascript" src="viz.js"></script>

@@ -175,26 +175,45 @@
 
   }
 
-  function requestDiamonds(player) {
+  function requestDiamonds(player,event_type) {
     player = player || 'poseb001';
+    event_type = event_type || 'triples';
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         diamondsToBuild = JSON.parse(xhttp.responseText);
-        $('.sk-folding-cube').toggle();
-        $('.controls .extra.content a').html('<i class="cubes icon"></i>' +diamondsToBuild.length+ ' diamonds');
+        $('.sk-folding-cube').toggle(function(){
+          $('g').fadeIn(500);
+          $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
+        });
+
+        $('body').on('click', '.filters .button', function(){
+          $('.filters').children().removeClass('active');
+          $(this).addClass('active');
+          var value = $(this).attr('data-value');
+        // Bug somewhere in here where the value is doubling
+          console.log(value);
+          $('.controls .extra.content a').html('<i class="cubes icon"></i> ? diamonds');
+
+          $('.sk-folding-cube').toggle();
+          $('g').fadeOut(500,function() {
+            requestDiamonds(player,value);
+            $('g').children().remove();
+          });
+        });
         $('.ui.dropdown').dropdown({
           onChange: function(value, text, $selectedItem) {
             // kill all current diamonds
             // show loading screen
             $('.controls .header').text(text);
+            $('.controls .extra.content a').html('<i class="cubes icon"></i> ? diamonds');
+            var event_type = $('.filters .button.active').attr('data-value');
+
             $('.sk-folding-cube').toggle();
-            $('g').children().fadeOut(500,function() {
-              $(this).remove();
-              // requestDiamonds(value);
+            $('g').fadeOut(500,function() {
+              requestDiamonds(value, event_type);
+              $('g').children().remove();
             });
-            // send get request
-            // reload diamonds
 
           }
 
@@ -204,7 +223,7 @@
         drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player + "&event_type=triples", true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player + "&event_type=" + event_type, true);
     xhttp.send();
   }
   function zoomed() {
