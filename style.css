@@ -1,6 +1,6 @@
 .ui.card.controls {
   position: absolute;
-  top: 20px;
+  top: 0px;
   left: 30px;
 }
 svg {
@@ -186,4 +186,7 @@ svg polygon.milestone {
             transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
+}
+.margin-top-10 {
+  margin-top: 10px;
 }

@@ -24,25 +24,35 @@
       <div class="meta">
         <span class="date">C: Career, S: Season, G: Game</span>
       </div>
-      <div class="description">
-        <div class="ui fluid search selection dropdown segment">
-          <input type="hidden" name="country">
-          <i class="search icon"></i>
-          <div class="default text">Search Players</div>
-          <div class="menu">
-            <div class="item" data-value="bondb001">Barry Bonds</div>
-            <div class="item" data-value="troum001">Mike Trout</div>
-            <div class="item" data-value="poseb001">Buster Posey</div>
-            <div class="item" data-value="cabrm001">Miguel Cabrera</div>
+          <div class="description">
+
+            <div class="ui fluid search selection dropdown">
+              <input type="hidden" name="country">
+              <i class="search icon"></i>
+              <div class="default text">Search Players</div>
+              <div class="menu">
+                <div class="item" data-value="bondb001">Barry Bonds</div>
+                <div class="item" data-value="troum001">Mike Trout</div>
+                <div class="item" data-value="poseb001">Buster Posey</div>
+                <div class="item" data-value="cabrm001">Miguel Cabrera</div>
+              </div>
+            </div>
+            <div class="margin-top-10">
+              <div class="four ui buttons filters">
+                <div class="ui button" data-value="singles">1B</div>
+                <div class="ui button" data-value="doubles">2B</div>
+                <div class="ui button active" data-value="triples">3B</div>
+                <div class="ui button" data-value="home_runs">HR</div>
+              </div>
+            </div>
+            <div class="margin-top-10">
+              <div class="two ui buttons filters">
+                <div class="ui button" data-value="hits">Hits</div>
+                <div class="ui button" data-value="stolen_bases">SB</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="four ui buttons filters">
-          <div class="ui button" data-value="singles">1B</div>
-          <div class="ui button" data-value="doubles">2B</div>
-          <div class="ui button active" data-value="triples">3B</div>
-          <div class="ui button" data-value="home_runs">HR</div>
-      </div>
-        </div>
+
     </div>
     <div class="extra content">
       <a><i class="cubes icon"></i> Loading diamonds</a>
