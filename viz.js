@@ -1,5 +1,8 @@
 // Visualizing my MLB data with D3
 (function() {
+  eventCodeButtonListener();
+  playerSearchListener();
+
   var canvasWidth = 1200,
       canvasHeight = 650,
       // Set the height / width of the diamond objects
@@ -175,49 +178,23 @@
 
   }
 
-  function requestDiamonds(player,event_type) {
+  function requestDiamonds(player, event_type) {
     player = player || 'poseb001';
     event_type = event_type || 'triples';
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
+        // Parse response from API
         diamondsToBuild = JSON.parse(xhttp.responseText);
+        // Stop loading spinner
         $('.sk-folding-cube').toggle(function(){
+          // Fade in the diamonds
           $('g').fadeIn(500);
+          // Fill in the number of diamonds to the control card
           $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
         });
 
-        $('body').on('click', '.filters .button', function(){
-          $('.filters').children().removeClass('active');
-          $(this).addClass('active');
-          var value = $(this).attr('data-value');
-        // Bug somewhere in here where the value is doubling
-          console.log(value);
-          $('.controls .extra.content a').html('<i class="cubes icon"></i> ? diamonds');
 
-          $('.sk-folding-cube').toggle();
-          $('g').fadeOut(500,function() {
-            requestDiamonds(player,value);
-            $('g').children().remove();
-          });
-        });
-        $('.ui.dropdown').dropdown({
-          onChange: function(value, text, $selectedItem) {
-            // kill all current diamonds
-            // show loading screen
-            $('.controls .header').text(text);
-            $('.controls .extra.content a').html('<i class="cubes icon"></i> ? diamonds');
-            var event_type = $('.filters .button.active').attr('data-value');
-
-            $('.sk-folding-cube').toggle();
-            $('g').fadeOut(500,function() {
-              requestDiamonds(value, event_type);
-              $('g').children().remove();
-            });
-
-          }
-
-        });
         $('.controls').show();
 
         drawBoard(diamondsToBuild);
@@ -226,6 +203,30 @@
     xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player + "&event_type=" + event_type, true);
     xhttp.send();
   }
+
+  function playerSearchListener(){
+    $('.ui.dropdown').dropdown({
+      onChange: function(value, text, $selectedItem) {
+        var event_type = $('.filters .button.active').attr('data-value');
+        requestDiamonds(value, event_type);
+      }
+    });
+  }
+
+  function eventCodeButtonListener(){
+    // Listen for clicks on '1B', '2B', etc. buttons
+    $('body').on('click','.filters .button', function() {
+      console.log(this + ' button clicked');
+      // Remove the active class from all buttons
+      $('.filters').children().removeClass('active');
+      // Add the active class to the button that was clicked on
+      $(this).addClass('active');
+      // Capture the search term from the button that was clicked on
+      var event_type = $(this).attr('data-value');
+      requestDiamonds(player, event_type);
+    });
+  }
+
   function zoomed() {
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   }
