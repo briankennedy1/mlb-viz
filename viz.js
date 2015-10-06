@@ -171,17 +171,13 @@
       }
       // Set coords to the VALUE of rowStart
       coords = rowStart.slice();
-
     }
-
   }
 
   function requestDiamonds(player_id, player_text, event_type) {
     player_id = player_id || 'poseb001';
     player_text = player_text || 'Buster Posey';
     event_type = event_type || 'triples';
-
-    // clearDiamondBoard();
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -197,7 +193,7 @@
           // Fill in the number of diamonds to the control card
           $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
           $('.header').text(player_text);
-          $('.header').attr('data-value',player_id)
+          $('.header').attr('data-value',player_id);
         });
 
       }
@@ -212,7 +208,8 @@
         player_id = value;
         player_text = text;
         var event_type = $('.filters .button.active').attr('data-value');
-        requestDiamonds(player_id, player_text, event_type);
+        var diamondCallback = requestDiamonds(player_id, player_text, event_type);
+        clearDiamondBoard(diamondCallback);
       }
     });
   }
@@ -228,19 +225,18 @@
       var event_type = $(this).attr('data-value');
       var player = $('.controls .header').attr('data-value');
       var player_text = $('.controls .header').text();
-      requestDiamonds(player, player_text, event_type);
+      var diamondRequest = requestDiamonds(player, player_text, event_type);
+      clearDiamondBoard(diamondRequest);
     });
   }
 
-  function clearDiamondBoard() {
-    $('.sk-folding-cube').show(function(){
-      // Fade in the diamonds
-      $('g').fadeOut(500,function(){
-        $('g').children().remove();
-      });
-      // Fill in the number of diamonds to the control card
+  function clearDiamondBoard(callback) {
+    $('g').fadeOut(200,function(){
+      $('.sk-folding-cube').show();
+      $('g').children().remove();
       $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
-      $('.controls .header').text('Loading Player');
+      $('.controls .header').text('Loading...');
+      callback;
     });
   }
 
