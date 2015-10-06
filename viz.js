@@ -179,33 +179,33 @@
     player_text = player_text || 'Barry Bonds';
     event_type  = event_type || 'triples';
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (xhttp.readyState == 4 && xhttp.status == 200) {
-        // Parse response from API
-        diamondsToBuild = JSON.parse(xhttp.responseText);
-        // Draw the diamonds
-        drawBoard(diamondsToBuild);
-        // Stop loading spinner
+    var apiLocation = 'http://localhost:3000/v1/';
+    var battingOrPitching = 'batting';
+    var id_type = battingOrPitching == 'batting' ? '?bat_id=' : '?pit_id=';
+    var url = apiLocation + battingOrPitching + id_type + player_id + '&event_type='+ event_type;
+
+    $.get(url)
+      .success(function(response){
+        drawBoard(response);
         $('.sk-folding-cube').hide(function(){
           // Fade in the diamonds
           $('g').fadeIn(300);
           // Fill in the number of diamonds to the control card
-          $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
+          $('.controls .extra.content a').html('<i class="cubes icon"></i>' + response.length + ' diamonds');
           $('.header').text(player_text);
           $('.header').attr('data-value',player_id);
           $('.filters').children().removeClass('disabled');
         });
-
-      }
-    };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player_id + "&event_type=" + event_type, true);
-    xhttp.send();
+      })
+      .error(function(response){
+        console.log(response);
+      });
   }
 
   function playerSearchListener(){
     $('.ui.dropdown').dropdown({
       onChange: function(value, text, $selectedItem) {
+        // Set player info from dropdown menu
         player_id = value;
         player_text = text;
         var event_type = $('.filters .button.active').attr('data-value');
