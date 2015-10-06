@@ -24,8 +24,6 @@
 
   var container = svg.append("g");
 
-  $('body').append('<div class="sk-folding-cube"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div>');
-
   svg.attr("height", canvasHeight)
      .attr("width", canvasWidth);
 
@@ -178,37 +176,43 @@
 
   }
 
-  function requestDiamonds(player, event_type) {
-    player = player || 'poseb001';
+  function requestDiamonds(player_id, player_text, event_type) {
+    player_id = player_id || 'poseb001';
+    player_text = player_text || 'Buster Posey';
     event_type = event_type || 'triples';
+
+    // clearDiamondBoard();
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         // Parse response from API
         diamondsToBuild = JSON.parse(xhttp.responseText);
+        // Draw the diamonds
+        drawBoard(diamondsToBuild);
         // Stop loading spinner
-        $('.sk-folding-cube').toggle(function(){
+        $('.sk-folding-cube').hide(function(){
           // Fade in the diamonds
           $('g').fadeIn(500);
           // Fill in the number of diamonds to the control card
           $('.controls .extra.content a').html('<i class="cubes icon"></i>' + diamondsToBuild.length + ' diamonds');
+          $('.header').text(player_text);
+          $('.header').attr('data-value',player_id)
         });
 
-
-        $('.controls').show();
-
-        drawBoard(diamondsToBuild);
       }
     };
-    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player + "&event_type=" + event_type, true);
+    xhttp.open("GET", "http://localhost:3000/v1/batting?bat_id=" + player_id + "&event_type=" + event_type, true);
     xhttp.send();
   }
 
   function playerSearchListener(){
     $('.ui.dropdown').dropdown({
       onChange: function(value, text, $selectedItem) {
+        player_id = value;
+        player_text = text;
         var event_type = $('.filters .button.active').attr('data-value');
-        requestDiamonds(value, event_type);
+        requestDiamonds(player_id, player_text, event_type);
       }
     });
   }
@@ -216,14 +220,27 @@
   function eventCodeButtonListener(){
     // Listen for clicks on '1B', '2B', etc. buttons
     $('body').on('click','.filters .button', function() {
-      console.log(this + ' button clicked');
       // Remove the active class from all buttons
       $('.filters').children().removeClass('active');
       // Add the active class to the button that was clicked on
       $(this).addClass('active');
       // Capture the search term from the button that was clicked on
       var event_type = $(this).attr('data-value');
-      requestDiamonds(player, event_type);
+      var player = $('.controls .header').attr('data-value');
+      var player_text = $('.controls .header').text();
+      requestDiamonds(player, player_text, event_type);
+    });
+  }
+
+  function clearDiamondBoard() {
+    $('.sk-folding-cube').show(function(){
+      // Fade in the diamonds
+      $('g').fadeOut(500,function(){
+        $('g').children().remove();
+      });
+      // Fill in the number of diamonds to the control card
+      $('.controls .extra.content a').html('<i class="cubes icon"></i> Loading diamonds');
+      $('.controls .header').text('Loading Player');
     });
   }
 

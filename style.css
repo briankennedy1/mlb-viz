@@ -2,7 +2,6 @@
   position: absolute;
   top: 20px;
   left: 30px;
-  display: none;
 }
 svg {
   border: 1px solid #ccc;
@@ -106,6 +105,7 @@ svg polygon.milestone {
   left: 560px;
   -webkit-transform: rotateZ(45deg);
           transform: rotateZ(45deg);
+  display: none;
 }
 
 .sk-folding-cube .sk-cube {
