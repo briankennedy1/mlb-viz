@@ -90,6 +90,12 @@ svg polygon.homer.three {
 svg polygon.homer.four {
   fill: #5f1915;
 }
+svg polygon.stolen-base {
+  fill: #fdf498
+}
+svg text.stolen-base {
+  fill: black;
+}
 svg polygon.milestone {
   fill: black;
 }

@@ -20,7 +20,7 @@
       .on("dragend", dragended);
 
   var svg = d3.select(".board-container").append("svg")
-                             .call(zoom);
+      .call(zoom);
 
   var container = svg.append("g");
 
@@ -30,7 +30,8 @@
 
   function drawDiamond(location, info) {
     // kill all diamonds
-    var cssClass = 'diamondShape';
+    var polygonClass = 'diamondShape';
+    var textClass = 'diamondText';
 
     var x = location[0],
         y = location[1];
@@ -41,33 +42,43 @@
         left   = (x - dWidth/2).toString() + "," + (y + dHeight/2).toString(),
         points = top + " " + right + " " + bottom + " " + left;
 
-        var big_text, career, season, game;
+    var big_text, career, season, game;
+
+// To properly visualize stolen bases, I need to parse the API data AGAIN to figure out who the runner is and if he matches the player I'm searching for. I think I should just adjust the API to send out more rich data.
 
     switch (info.event_cd) {
+      case 4:
+        big_text = 'SB';
+        polygonClass = 'stolen-base';
+        textClass = 'stolen-base';
+        // career = info.batter_career_single;
+        // season = info.batter_season_single;
+        // game   = info.batter_game_single;
+        break;
       case 20:
         big_text = '1B';
-        cssClass = 'single';
+        polygonClass = 'single';
         career = info.batter_career_single;
         season = info.batter_season_single;
         game   = info.batter_game_single;
         break;
       case 21:
         big_text = '2B';
-        cssClass = 'double';
+        polygonClass = 'double';
         career = info.batter_career_double;
         season = info.batter_season_double;
         game   = info.batter_game_double;
         break;
       case 22:
         big_text = '3B';
-        cssClass = 'triple';
+        polygonClass = 'triple';
         career = info.batter_career_triple;
         season = info.batter_season_triple;
         game   = info.batter_game_triple;
         break;
       case 23:
         big_text = 'HR';
-        cssClass = 'homer';
+        polygonClass = 'homer';
         career = info.batter_career_home_run;
         season = info.batter_season_home_run;
         game   = info.batter_game_home_run;
@@ -77,46 +88,49 @@
     }
 
     if (career == 1) {
-      cssClass = cssClass + ' milestone';
+      polygonClass = polygonClass + ' milestone';
     }
     if (career % 100 === 0) {
-      cssClass = cssClass + ' milestone';
+      polygonClass = polygonClass + ' milestone';
     }
     if (game == 2) {
-      cssClass = cssClass + ' two';
+      polygonClass = polygonClass + ' two';
     }
     if (game == 3) {
-      cssClass = cssClass + ' three';
+      polygonClass = polygonClass + ' three';
     }
     if (game == 4) {
-      cssClass = cssClass + ' four';
+      polygonClass = polygonClass + ' four';
     }
     if (game == 5) {
-      cssClass = cssClass + ' five';
+      polygonClass = polygonClass + ' five';
     }
     if (game == 6) {
-      cssClass = cssClass + ' six';
+      polygonClass = polygonClass + ' six';
     }
 
     var diamond = container.append("polygon")
                       .attr("points", points)
-                      .attr('class', cssClass);
+                      .attr('class', polygonClass);
                     container.append("text")
                         .attr("x", x-(dWidth/7.5))
                         .attr("y", y+(dHeight/2.2))
                         .text(big_text)
-                        .attr('class','big-name');
+                        .attr('class','big-name ' + textClass);
                     container.append("text")
                         .attr("x", x-(dWidth/11))
                         .attr("y", y+(dHeight*0.6))
+                        .attr('class', textClass)
                         .text('C: ' + career );
                     container.append("text")
                         .attr("x", x-(dWidth/11))
                         .attr("y", y+(dHeight*0.7))
+                        .attr('class', textClass)
                         .text('S: ' + season);
                     container.append("text")
                         .attr("x", x-(dWidth/11))
                         .attr("y", y+(dHeight*0.8))
+                        .attr('class', textClass)
                         .text('G: ' + game);
     return diamond;
   }
@@ -219,6 +233,7 @@
             requestDiamonds(player_id, player_text, event_type);
           });
           $('.ui.selection.dropdown').addClass('disabled');
+          $('.filters').children().addClass('disabled');
         }
       }
     });
