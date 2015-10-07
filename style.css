@@ -8,33 +8,37 @@ svg {
 svg g {
   display: none;
 }
-svg line{
+svg line {
     stroke: grey;
     stroke-width: 2;
 }
 
-svg circle{
+svg circle {
     stroke: red;
     fill: none;
     stroke-width: 2;
 }
 
-svg rect{
+svg rect {
     stroke: steelblue;
     fill: none;
     stroke-width: 2;
 }
 
-svg polygon{
+svg polygon {
     stroke: white;
     fill: steelblue;
     stroke-width: 2;
     color:red;
 }
-svg text{
+svg text {
     color: white;
     fill: white;
     font-size: 8px;
+}
+svg text.stolen-base.milestone {
+    fill: white;
+    color: white;
 }
 svg text.big-name {
     font-size: 16px;
@@ -93,9 +97,25 @@ svg polygon.homer.four {
 svg polygon.stolen-base {
   fill: #fdf498
 }
+svg polygon.stolen-base.two {
+  fill: #e3db88
+}
+svg polygon.stolen-base.three {
+  fill: #cac379
+}
+svg polygon.stolen-base.four {
+  fill: #b1aa6a
+}
+svg polygon.stolen-base.five {
+  fill: #97925b
+}
+svg polygon.stolen-base.six {
+  fill: #7e7a4c
+}
 svg text.stolen-base {
   fill: black;
 }
+
 svg polygon.milestone {
   fill: black;
 }

@@ -50,9 +50,9 @@
       big_text = 'SB';
       polygonClass = 'stolen-base';
       textClass = 'stolen-base';
-      // career = info.batter_career_single;
-      // season = info.batter_season_single;
-      // game   = info.batter_game_single;
+      career = info.runner_career_stolen_base;
+      season = info.runner_season_stolen_base;
+      game   = info.runner_game_stolen_base;
       break;
     }
 
@@ -89,9 +89,11 @@
 
     if (career == 1) {
       polygonClass = polygonClass + ' milestone';
+      textClass = textClass + ' milestone';
     }
     if (career % 100 === 0) {
       polygonClass = polygonClass + ' milestone';
+      textClass = textClass + ' milestone';
     }
 
     switch (game) {
