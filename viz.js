@@ -28,7 +28,7 @@
      .attr("width", canvasWidth);
 
 
-  function drawDiamond(location, info) {
+  function drawDiamond(location, info, player, event_type) {
     // kill all diamonds
     var polygonClass = 'diamondShape';
     var textClass = 'diamondText';
@@ -44,17 +44,19 @@
 
     var big_text, career, season, game;
 
-// To properly visualize stolen bases, I need to parse the API data AGAIN to figure out who the runner is and if he matches the player I'm searching for. I think I should just adjust the API to send out more rich data.
+    switch (event_type) {
+      // Stolen bases will also be included with strikeouts, so taking a step back and using a general reference to event_type is the best route.
+      case 'stolen_bases':
+      big_text = 'SB';
+      polygonClass = 'stolen-base';
+      textClass = 'stolen-base';
+      // career = info.batter_career_single;
+      // season = info.batter_season_single;
+      // game   = info.batter_game_single;
+      break;
+    }
 
     switch (info.event_cd) {
-      case 4:
-        big_text = 'SB';
-        polygonClass = 'stolen-base';
-        textClass = 'stolen-base';
-        // career = info.batter_career_single;
-        // season = info.batter_season_single;
-        // game   = info.batter_game_single;
-        break;
       case 20:
         big_text = '1B';
         polygonClass = 'single';
@@ -83,8 +85,6 @@
         season = info.batter_season_home_run;
         game   = info.batter_game_home_run;
         break;
-      default:
-        big_text = 'NA';
     }
 
     if (career == 1) {
@@ -93,20 +93,23 @@
     if (career % 100 === 0) {
       polygonClass = polygonClass + ' milestone';
     }
-    if (game == 2) {
+
+    switch (game) {
+      case 2:
       polygonClass = polygonClass + ' two';
-    }
-    if (game == 3) {
+      break;
+      case 3:
       polygonClass = polygonClass + ' three';
-    }
-    if (game == 4) {
+      break;
+      case 4:
       polygonClass = polygonClass + ' four';
-    }
-    if (game == 5) {
+      break;
+      case 5:
       polygonClass = polygonClass + ' five';
-    }
-    if (game == 6) {
+      break;
+      case 6:
       polygonClass = polygonClass + ' six';
+      break;
     }
 
     var diamond = container.append("polygon")
@@ -135,7 +138,7 @@
     return diamond;
   }
 
-  function drawBoard(diamondsToBuild){
+  function drawBoard(diamondsToBuild,player,event_type){
     var diamondCount = 0,
         diamondsToBuildCount = diamondsToBuild.length;
 
@@ -155,7 +158,7 @@
     while (diamondCount <= diamondsToBuildCount) {
       while (diamondsInRow < rowWidth) {
         // Draw diamond at current coords and pass JSON content as arg
-        drawDiamond(coords, diamondsToBuild[diamondCount]);
+        drawDiamond(coords, diamondsToBuild[diamondCount],player,event_type);
         // Increment diamondCount
         diamondCount++;
         // Break out if we've drawn every diamond we need
@@ -200,12 +203,12 @@
 
     $.get(url)
       .success(function(response){
-        drawBoard(response);
+        drawBoard(response.data,response.player,response.event_type);
         $('.sk-folding-cube').hide(function(){
           // Fade in the diamonds
           $('g').fadeIn(300);
           // Fill in the number of diamonds to the control card
-          $('.controls .meta').html('<i class="cubes icon"></i> ' + response.length + ' diamonds');
+          $('.controls .meta').html('<i class="cubes icon"></i> ' + response.data.length + ' diamonds');
           $('.header').text(player_text);
           $('.header').attr('data-value',player_id);
           $('.filters').children().removeClass('disabled');
@@ -246,6 +249,8 @@
       $('.filters').children().removeClass('active');
       // Disable all buttons while request is being made
       $('.filters').children().addClass('disabled');
+      // Disable search dropdown while request is being made
+      $('.ui.selection.dropdown').addClass('disabled');
       // Add the active class to the button that was clicked on
       $(this).addClass('active');
       // Capture the search term from the button that was clicked on
