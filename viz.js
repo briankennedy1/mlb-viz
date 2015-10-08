@@ -58,6 +58,91 @@
     }
 
     switch (info.event_cd) {
+      case 2:
+        if (info.sf_fl == 'T') {
+          big_text = 'SF';
+          polygonClass = 'sacrifice-fly';
+          career = info.batter_career_sacrifice_fly;
+          season = info.batter_season_sacrifice_fly;
+          game   = info.batter_game_sacrifice_fly;
+        } else if (info.sh_fl == 'T') {
+          big_text = 'SH';
+          polygonClass = 'sacrifice-hit';
+          career = info.batter_career_sacrifice_hit;
+          season = info.batter_season_sacrifice_hit;
+          game   = info.batter_game_sacrifice_hit;
+        } else {
+          big_text = 'O';
+          polygonClass = 'out';
+          // career = info.batter_career_sacrifice_hit;
+          // season = info.batter_season_sacrifice_hit;
+          // game   = info.batter_game_sacrifice_hit;
+        }
+        break;
+      case 3:
+        big_text = 'K';
+        polygonClass = 'strikeout';
+        career = info.pitcher_career_strikeout;
+        season = info.pitcher_season_strikeout;
+        game   = info.pitcher_game_strikeout;
+        break;
+      case 4:
+        big_text = 'SB';
+        polygonClass = 'stolen-base';
+        textClass = 'stolen-base';
+        // career = info.pitcher_career_strikeout;
+        // season = info.pitcher_season_strikeout;
+        // game   = info.pitcher_game_strikeout;
+        break;
+      case 9:
+        big_text = 'WP';
+        polygonClass = 'wild-pitch';
+        career = info.pitcher_career_wild_pitch;
+        season = info.pitcher_season_wild_pitch;
+        game   = info.pitcher_game_wild_pitch;
+        break;
+      case 10:
+        big_text = 'PB';
+        polygonClass = 'passed-ball';
+        // career = info.pitcher_career_passed_ball;
+        // season = info.pitcher_season_passed_ball;
+        // game   = info.pitcher_game_passed_ball;
+        break;
+      case 11:
+        big_text = 'BK';
+        polygonClass = 'balk';
+        career = info.pitcher_career_balk;
+        season = info.pitcher_season_balk;
+        game   = info.pitcher_game_balk;
+        break;
+      case 14:
+        big_text = 'BB';
+        polygonClass = 'walk';
+        career = info.batter_career_walk;
+        season = info.batter_season_walk;
+        game   = info.batter_game_walk;
+        break;
+      case 16:
+        big_text = 'HBP';
+        polygonClass = 'hit-by-pitch';
+        career = info.pitcher_career_hit_by_pitch;
+        season = info.pitcher_season_hit_by_pitch;
+        game   = info.pitcher_game_hit_by_pitch;
+        break;
+      case 18:
+        big_text = 'E';
+        polygonClass = 'error';
+        // career = info.pitcher_career_hit_by_pitch;
+        // season = info.pitcher_season_hit_by_pitch;
+        // game   = info.pitcher_game_hit_by_pitch;
+        break;
+      case 19:
+        big_text = 'FC';
+        polygonClass = 'fielders-choice';
+        // career = info.batter_career_single;
+        // season = info.batter_season_single;
+        // game   = info.batter_game_single;
+        break;
       case 20:
         big_text = '1B';
         polygonClass = 'single';
@@ -239,9 +324,10 @@
           player_id = value;
           player_text = text;
           var event_type = $('.filters .button.active').attr('data-value');
+          var batOrPit = $('.bat-pit-switch').children('.active').attr('data-value');
           // Clear the diamond board first and then make the diamond request
           clearDiamondBoard(function(){
-            requestDiamonds(player_id, player_text, event_type);
+            requestDiamonds(player_id, player_text, event_type, batOrPit);
           });
           $('.ui.selection.dropdown').addClass('disabled');
           $('.filters').children().addClass('disabled');
