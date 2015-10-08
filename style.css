@@ -124,6 +124,9 @@ svg polygon.sacrifice-hit {
 svg polygon.walk {
   fill: #95a5a6
 }
+svg polygon.intentional-walk {
+  fill: #95a5a6
+}
 svg polygon.wild-pitch {
   fill: #AEA8D3
 }
@@ -137,6 +140,9 @@ svg polygon.fielders-choice {
   fill: #67809F
 }
 svg polygon.out {
+  fill: #34495E
+}
+svg polygon.caught-stealing {
   fill: #34495E
 }
 svg polygon.balk {
@@ -248,4 +254,8 @@ svg polygon.milestone {
 }
 .pitching-buttons {
   display: none;
+}
+.warning {
+  color: red!important;
+  font-weight: bold;
 }

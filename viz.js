@@ -94,6 +94,13 @@
         // season = info.pitcher_season_strikeout;
         // game   = info.pitcher_game_strikeout;
         break;
+      case 6:
+        big_text = 'CS';
+        polygonClass = 'caught-stealing';
+        // career = info.pitcher_career_strikeout;
+        // season = info.pitcher_season_strikeout;
+        // game   = info.pitcher_game_strikeout;
+        break;
       case 9:
         big_text = 'WP';
         polygonClass = 'wild-pitch';
@@ -121,6 +128,13 @@
         career = info.batter_career_walk;
         season = info.batter_season_walk;
         game   = info.batter_game_walk;
+        break;
+      case 15:
+        big_text = 'IBB';
+        polygonClass = 'intentional-walk';
+        // career = info.batter_career_walk;
+        // season = info.batter_season_walk;
+        // game   = info.batter_game_walk;
         break;
       case 16:
         big_text = 'HBP';
@@ -228,7 +242,7 @@
 
   function drawBoard(diamondsToBuild,player,event_type){
     if (diamondsToBuild.length === 0) {
-      console.log('no diamonds found');
+      $('.meta').addClass('warning');
     } else {
       var diamondCount = 0,
         diamondsToBuildCount = diamondsToBuild.length;
@@ -382,6 +396,7 @@
       $('g').hide(300, function(){
         $('.sk-folding-cube').show();
         $('g').children().remove();
+        $('.meta').removeClass('warning');
         $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
         $('.controls .header').text('Loading...');
         callback();
