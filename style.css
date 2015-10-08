@@ -27,7 +27,7 @@ svg rect {
 
 svg polygon {
     stroke: white;
-    fill: steelblue;
+    fill: white;
     stroke-width: 2;
     color:red;
 }
@@ -213,4 +213,7 @@ svg polygon.milestone {
 }
 .margin-top-10 {
   margin-top: 10px;
+}
+.pitching-buttons {
+  display: none;
 }

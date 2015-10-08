@@ -2,6 +2,7 @@
 (function() {
   eventCodeButtonListener();
   playerSearchListener();
+  batPitButtonListener();
 
   var canvasWidth = 1200,
       canvasHeight = 650,
@@ -141,65 +142,69 @@
   }
 
   function drawBoard(diamondsToBuild,player,event_type){
-    var diamondCount = 0,
+    if (diamondsToBuild.length === 0) {
+      console.log('no diamonds found');
+    } else {
+      var diamondCount = 0,
         diamondsToBuildCount = diamondsToBuild.length;
 
-    // The board is the widest when the current row is equal to the square root of the number to build rounded up.
-    var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount)),
-        // When the widest row has been built, we will turn shrink mode on
-        shrink = false;
+      // The board is the widest when the current row is equal to the square root of the number to build rounded up.
+      var widestRow = Math.ceil(Math.sqrt(diamondsToBuildCount)),
+          // When the widest row has been built, we will turn shrink mode on
+          shrink = false;
 
-    // Draw diamonds while there are diamonds to build
-    var rowWidth = 1, // Start at row 1. The board is a square turned 45
-                      // degrees, so row width and number of diamonds in
-                      // a row are the same.
-        diamondsInRow = 0, // Current count of diamonds in row
-        rowStart      = [600,0], // Where to start the row.
-        coords        = [600,0]; // Where to start the first diamond.
+      // Draw diamonds while there are diamonds to build
+      var rowWidth = 1, // Start at row 1. The board is a square turned 45
+                        // degrees, so row width and number of diamonds in
+                        // a row are the same.
+          diamondsInRow = 0, // Current count of diamonds in row
+          rowStart      = [600,0], // Where to start the row.
+          coords        = [600,0]; // Where to start the first diamond.
 
-    while (diamondCount <= diamondsToBuildCount) {
-      while (diamondsInRow < rowWidth) {
-        // Draw diamond at current coords and pass JSON content as arg
-        drawDiamond(coords, diamondsToBuild[diamondCount],player,event_type);
-        // Increment diamondCount
-        diamondCount++;
-        // Break out if we've drawn every diamond we need
-        if (diamondCount == diamondsToBuildCount) { return; }
-        // Increment diamondsInRow
-        diamondsInRow++;
-        // Set coords for next diamond one diamond width to the right
-        coords[0] += dWidth;
+      while (diamondCount <= diamondsToBuildCount) {
+        while (diamondsInRow < rowWidth) {
+          // Draw diamond at current coords and pass JSON content as arg
+          drawDiamond(coords, diamondsToBuild[diamondCount],player,event_type);
+          // Increment diamondCount
+          diamondCount++;
+          // Break out if we've drawn every diamond we need
+          if (diamondCount == diamondsToBuildCount) { return; }
+          // Increment diamondsInRow
+          diamondsInRow++;
+          // Set coords for next diamond one diamond width to the right
+          coords[0] += dWidth;
+        }
+        // Reset diamond count
+        diamondsInRow = 0;
+        if (rowWidth  == widestRow) {
+          shrink = true;
+        }
+        if (shrink === false) {
+          // Increment rowWidth
+          rowWidth++;
+          // Move the start of the next row down and to the left
+          rowStart[0] -= dWidth/2;
+          rowStart[1] += dHeight/2;
+        } else {
+          // Decrement rowWidth
+          rowWidth--;
+          // Move the start of the next row down and to the right
+          rowStart[0] += dWidth/2;
+          rowStart[1] += dHeight/2;
+        }
+        // Set coords to the VALUE of rowStart
+        coords = rowStart.slice();
       }
-      // Reset diamond count
-      diamondsInRow = 0;
-      if (rowWidth  == widestRow) {
-        shrink = true;
-      }
-      if (shrink === false) {
-        // Increment rowWidth
-        rowWidth++;
-        // Move the start of the next row down and to the left
-        rowStart[0] -= dWidth/2;
-        rowStart[1] += dHeight/2;
-      } else {
-        // Decrement rowWidth
-        rowWidth--;
-        // Move the start of the next row down and to the right
-        rowStart[0] += dWidth/2;
-        rowStart[1] += dHeight/2;
-      }
-      // Set coords to the VALUE of rowStart
-      coords = rowStart.slice();
     }
   }
 
-  function requestDiamonds(player_id, player_text, event_type) {
+  function requestDiamonds(player_id, player_text, event_type, battingOrPitching) {
     player_id   = player_id || 'bondb001';
     player_text = player_text || 'Barry Bonds';
     event_type  = event_type || 'triples';
+    battingOrPitching = battingOrPitching || 'batting';
 
     var apiLocation = 'http://localhost:3000/v1/';
-    var battingOrPitching = 'batting';
     var id_type = battingOrPitching == 'batting' ? '?bat_id=' : '?pit_id=';
     var url = apiLocation + battingOrPitching + id_type + player_id + '&event_type='+ event_type;
 
@@ -214,6 +219,7 @@
           $('.header').text(player_text);
           $('.header').attr('data-value',player_id);
           $('.filters').children().removeClass('disabled');
+          $('.bat-pit-switch').children().removeClass('disabled');
           $('.search').dropdown('clear');
           $('.ui.selection.dropdown').removeClass('disabled');
         });
@@ -260,10 +266,28 @@
       // Capture the player_id and text from .header on the controls
       var player_id = $('.controls .header').attr('data-value');
       var player_text = $('.controls .header').text();
+      var batOrPit = $('.bat-pit-switch').children('.active').attr('data-value');
       // Clear the diamond board first and then make the diamond request
       clearDiamondBoard(function(){
-        requestDiamonds(player_id, player_text, event_type);
+        requestDiamonds(player_id, player_text, event_type, batOrPit);
       });
+    });
+  }
+
+  function batPitButtonListener(){
+    $('body').on('click','.bat-pit-switch .button', function() {
+      // Remove the active class from other button
+      $('.bat-pit-switch').children().removeClass('active');
+      // Add the active class to the button that was clicked on
+      $(this).addClass('active');
+      // Switch control buttons from one to the other
+      if ($(this).attr('data-value') == 'pitching') {
+        $('.batting-buttons').hide('slow');
+        $('.pitching-buttons').show('slow');
+      } else {
+        $('.pitching-buttons').hide('slow');
+        $('.batting-buttons').show('slow');
+      }
     });
   }
 

@@ -27,18 +27,30 @@
         <div class="ui active mini inline loader"></div>
       </div>
           <div class="description">
-            <div class="margin-top-10">
-              <div class="four ui buttons filters">
-                <div class="ui button" data-value="singles">1B</div>
-                <div class="ui button" data-value="doubles">2B</div>
-                <div class="ui button active" data-value="triples">3B</div>
-                <div class="ui button" data-value="home_runs">HR</div>
+            <div class="batting-buttons">
+              <div class="ui center aligned row margin-top-10">
+                <div class="four ui buttons filters">
+                  <div class="ui button" data-value="singles">1B</div>
+                  <div class="ui button" data-value="doubles">2B</div>
+                  <div class="ui button active" data-value="triples">3B</div>
+                  <div class="ui button" data-value="home_runs">HR</div>
+                </div>
+              </div>
+              <div class="ui center aligned row margin-top-10">
+                <div class="two ui buttons filters">
+                  <div class="ui button" data-value="hits">All Hits</div>
+                  <div class="ui button" data-value="stolen_bases">Stolen Bases</div>
+                </div>
               </div>
             </div>
-            <div class="margin-top-10">
-              <div class="two ui buttons filters">
-                <div class="ui button" data-value="hits">All Hits</div>
-                <div class="ui button" data-value="stolen_bases">Stolen Bases</div>
+            <div class="pitching-buttons">
+              <div class="ui center aligned row margin-top-10">
+                <div class="four ui buttons filters">
+                  <div class="ui button" data-value="strikeouts">K</div>
+                  <div class="ui button" data-value="outs">Outs</div>
+                  <div class="ui button" data-value="earned_runs">ER</div>
+                  <div class="ui button" data-value="home_runs">HR</div>
+                </div>
               </div>
             </div>
           </div>
@@ -57,6 +69,15 @@
           <div class="item" data-value="cabrm001">Miguel Cabrera</div>
           <div class="item" data-value="hamib001">Billy Hamilton</div>
           <div class="item" data-value="suzui001">Ichiro Suzuki</div>
+          <div class="item" data-value="greiz001">Zack Greinke</div>
+          <div class="item" data-value="linct001">Tim Lincecum</div>
+        </div>
+      </div>
+      <div class="ui center aligned row margin-top-10">
+        <div class="ui buttons bat-pit-switch">
+          <button class="ui button active" data-value="batting">Batting</button>
+          <div class="or"></div>
+          <button class="ui button" data-value="pitching">Pitching</button>
         </div>
       </div>
     </div>
