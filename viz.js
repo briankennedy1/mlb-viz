@@ -343,7 +343,11 @@
           clearDiamondBoard(function(){
             requestDiamonds(player_id, player_text, event_type, batOrPit);
           });
+          // Disable batting or pitching button while request is being made
+          $('.bat-pit-switch').children().addClass('disabled');
+          // Disable search dropdown while request is being made
           $('.ui.selection.dropdown').addClass('disabled');
+          // Disable filter buttons while request is being made
           $('.filters').children().addClass('disabled');
         }
       }
@@ -359,6 +363,8 @@
       $('.filters').children().addClass('disabled');
       // Disable search dropdown while request is being made
       $('.ui.selection.dropdown').addClass('disabled');
+      // Disable batting or pitching button while request is being made
+      $('.bat-pit-switch').children().addClass('disabled');
       // Add the active class to the button that was clicked on
       $(this).addClass('active');
       // Capture the search term from the button that was clicked on
@@ -378,6 +384,8 @@
     $('body').on('click','.bat-pit-switch .button', function() {
       // Remove the active class from other button
       $('.bat-pit-switch').children().removeClass('active');
+      // Remove the active class from filters
+      $('.filters').children().removeClass('active');
       // Add the active class to the button that was clicked on
       $(this).addClass('active');
       // Switch control buttons from one to the other
@@ -393,14 +401,14 @@
 
   function clearDiamondBoard(callback) {
     // Good place to reset zoom and center of screen
-      $('g').hide(300, function(){
-        $('.sk-folding-cube').show();
-        $('g').children().remove();
-        $('.meta').removeClass('warning');
-        $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
-        $('.controls .header').text('Loading...');
-        callback();
-      });
+    $('g').hide(300, function(){
+      $('.sk-folding-cube').show();
+      $('g').children().remove();
+      $('.meta').removeClass('warning');
+      $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
+      $('.controls .header').text('Loading...');
+      callback();
+    });
   }
 
   function zoomed() {
