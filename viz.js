@@ -14,12 +14,6 @@
       .scaleExtent([0.2, 2])
       .on("zoom", zoomed);
 
-  // var drag = d3.behavior.drag()
-  //     .origin(function(d) { return d; })
-  //     .on("dragstart", dragstarted)
-  //     .on("drag", dragged)
-  //     .on("dragend", dragended);
-
   var svg = d3.select(".board-container").append("svg").call(zoom);
 
   var container = svg.append("g");
@@ -428,22 +422,6 @@
     zoom.translate([0,0]);
     zoom.scale(1);
   }
-
-  // function dragstarted(d) {
-  //   d3.event.sourceEvent.stopPropagation();
-  //   d3.select(this).classed("dragging", true);
-  //   console.log('dragstarted');
-  // }
-  //
-  // function dragged(d) {
-  //   d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-  //   console.log('dragged');
-  // }
-  //
-  // function dragended(d) {
-  //   d3.select(this).classed("dragging", false);
-  //   console.log('dragended');
-  // }
 
   requestDiamonds();
 })();
