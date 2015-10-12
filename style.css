@@ -115,38 +115,23 @@ svg polygon.stolen-base.six {
 svg text.stolen-base {
   fill: black;
 }
+svg text.placeholder {
+  fill: black;
+}
+svg text.placeholder.milestone {
+  fill: #d3ffce;
+}
+svg polygon.placeholder {
+  fill: #d3ffce
+}
 svg polygon.sacrifice-fly {
   fill: #9b59b6
 }
 svg polygon.sacrifice-hit {
   fill: #9b59b6
 }
-svg polygon.walk {
-  fill: #95a5a6
-}
-svg polygon.intentional-walk {
-  fill: #95a5a6
-}
-svg polygon.wild-pitch {
-  fill: #AEA8D3
-}
-svg polygon.passed-ball {
-  fill: #AEA8D3
-}
-svg polygon.hit-by-pitch {
-  fill: #AEA8D3
-}
-svg polygon.fielders-choice {
-  fill: #67809F
-}
 svg polygon.out {
   fill: #34495E
-}
-svg polygon.caught-stealing {
-  fill: #34495E
-}
-svg polygon.balk {
-  fill: #336E7B
 }
 svg polygon.strikeout {
   fill: #F9690E
