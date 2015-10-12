@@ -14,14 +14,13 @@
       .scaleExtent([0.2, 2])
       .on("zoom", zoomed);
 
-  var drag = d3.behavior.drag()
-      .origin(function(d) { return d; })
-      .on("dragstart", dragstarted)
-      .on("drag", dragged)
-      .on("dragend", dragended);
+  // var drag = d3.behavior.drag()
+  //     .origin(function(d) { return d; })
+  //     .on("dragstart", dragstarted)
+  //     .on("drag", dragged)
+  //     .on("dragend", dragended);
 
-  var svg = d3.select(".board-container").append("svg")
-      .call(zoom);
+  var svg = d3.select(".board-container").append("svg").call(zoom);
 
   var container = svg.append("g");
 
@@ -306,8 +305,8 @@
   }
 
   function requestDiamonds(player_id, player_text, event_type, battingOrPitching) {
-    player_id   = player_id || 'bondb001';
-    player_text = player_text || 'Barry Bonds';
+    player_id   = player_id || 'hamib001';
+    player_text = player_text || 'Billy Hamilton';
     event_type  = event_type || 'triples';
     battingOrPitching = battingOrPitching || 'batting';
 
@@ -415,6 +414,7 @@
       $('.meta').removeClass('warning');
       $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
       $('.controls .header').text('Loading...');
+      reCenterCanvas();
       callback();
     });
   }
@@ -423,18 +423,27 @@
     container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   }
 
-  function dragstarted(d) {
-    d3.event.sourceEvent.stopPropagation();
-    d3.select(this).classed("dragging", true);
+  function reCenterCanvas() {
+    container.attr("transform", "translate(0,0)scale(1)");
+    zoom.translate([0,0]);
+    zoom.scale(1);
   }
 
-  function dragged(d) {
-    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-  }
-
-  function dragended(d) {
-    d3.select(this).classed("dragging", false);
-  }
+  // function dragstarted(d) {
+  //   d3.event.sourceEvent.stopPropagation();
+  //   d3.select(this).classed("dragging", true);
+  //   console.log('dragstarted');
+  // }
+  //
+  // function dragged(d) {
+  //   d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  //   console.log('dragged');
+  // }
+  //
+  // function dragended(d) {
+  //   d3.select(this).classed("dragging", false);
+  //   console.log('dragended');
+  // }
 
   requestDiamonds();
 })();
