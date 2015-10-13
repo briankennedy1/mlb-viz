@@ -95,22 +95,22 @@ svg polygon.homer.four {
   fill: #5f1915;
 }
 svg polygon.stolen-base {
-  fill: #fdf498
+  fill: #fdf498;
 }
 svg polygon.stolen-base.two {
-  fill: #e3db88
+  fill: #e3db88;
 }
 svg polygon.stolen-base.three {
-  fill: #cac379
+  fill: #cac379;
 }
 svg polygon.stolen-base.four {
-  fill: #b1aa6a
+  fill: #b1aa6a;
 }
 svg polygon.stolen-base.five {
-  fill: #97925b
+  fill: #97925b;
 }
 svg polygon.stolen-base.six {
-  fill: #7e7a4c
+  fill: #7e7a4c;
 }
 svg text.stolen-base {
   fill: black;
@@ -122,25 +122,31 @@ svg text.placeholder.milestone {
   fill: #d3ffce;
 }
 svg polygon.placeholder {
-  fill: #d3ffce
+  fill: #d3ffce;
 }
 svg polygon.sacrifice-fly {
-  fill: #9b59b6
+  fill: #9b59b6;
 }
 svg polygon.sacrifice-hit {
-  fill: #9b59b6
+  fill: #9b59b6;
 }
 svg polygon.out {
-  fill: #34495E
+  fill: #34495E;
 }
 svg polygon.strikeout {
-  fill: #F9690E
+  fill: #F9690E;
 }
 svg polygon.error {
-  fill: #D2D7D3
+  fill: #D2D7D3;
 }
 svg polygon.milestone {
   fill: black;
+}
+svg text.other-pitcher {
+  fill: black;
+}
+svg polygon.other-pitcher {
+  fill: white;
 }
 
 
