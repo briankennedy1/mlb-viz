@@ -294,6 +294,9 @@
             // Generic Out
             big_text = 'O';
             polygonClass = 'out';
+            career = info.pitcher_career_out;
+            season = info.pitcher_season_out;
+            game   = info.pitcher_game_out;
           }
           break;
         case 3:
@@ -330,12 +333,18 @@
           big_text = 'PO';
           polygonClass = 'placeholder';
           textClass = 'placeholder';
+          career = info.pitcher_career_pick_off;
+          season = info.pitcher_season_pick_off;
+          game   = info.pitcher_game_pick_off;
           break;
         case 9:
         // Wild Pitch
           big_text = 'WP';
           polygonClass = 'placeholder';
           textClass = 'placeholder';
+          career = info.pitcher_career_wild_pitch;
+          season = info.pitcher_season_wild_pitch;
+          game   = info.pitcher_game_wild_pitch;
           break;
         case 10:
         // Passed Ball
@@ -369,18 +378,27 @@
           big_text = 'BB';
           polygonClass = 'placeholder';
           textClass = 'placeholder';
+          career = info.pitcher_career_walk;
+          season = info.pitcher_season_walk;
+          game   = info.pitcher_game_walk;
           break;
         case 15:
-        // Intention Walk
+        // Intentional Walk
           big_text = 'IBB';
           polygonClass = 'placeholder';
           textClass = 'placeholder';
+          career = info.pitcher_career_intentional_walk;
+          season = info.pitcher_season_intentional_walk;
+          game   = info.pitcher_game_intentional_walk;
           break;
         case 16:
         // Hit by pitch
           big_text = 'HBP';
           polygonClass = 'placeholder';
           textClass = 'placeholder';
+          career = info.pitcher_career_hit_by_pitch;
+          season = info.pitcher_season_hit_by_pitch;
+          game   = info.pitcher_game_hit_by_pitch;
           break;
         case 17:
         // Interference
