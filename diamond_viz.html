@@ -5,6 +5,7 @@
   <title>Diamond Viz</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.js"></script>
   <script src="semantic/dist/semantic.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
@@ -77,6 +78,7 @@
         <i class="search icon"></i>
         <div class="default text">Search Players</div>
         <div class="menu">
+          <!--
           <div class="item" data-value="bondb001">Barry Bonds</div>
           <div class="item" data-value="troum001">Mike Trout</div>
           <div class="item" data-value="harpb003">Bryce Harper</div>
@@ -88,6 +90,7 @@
           <div class="item" data-value="linct001">Tim Lincecum</div>
           <div class="item" data-value="clemr001">Roger Clemens</div>
           <div class="item" data-value="nen-r001">Robb Nen</div>
+          -->
         </div>
       </div>
       <div class="ui center aligned row margin-top-10">
@@ -99,6 +102,14 @@
       </div>
     </div>
   </div>
+  <script id="dropdown-template" type="text/x-handlebars-template">
+    {{#players}}
+      <div class="item" data-value="{{player_id}}">
+        <span class="description">{{debut}}</span>
+        <span class="text">{{first_name}} {{last_name}}</span>
+      </div>
+    {{/players}}
+  </script>
   <script language="javascript" type="text/javascript" src="viz.js"></script>
 </body>
 </html>
