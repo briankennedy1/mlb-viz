@@ -5,6 +5,7 @@
     playerSearchListener();
     batPitButtonListener();
     populatePlayerDropdown();
+    newPlayerSearch();
 
     var canvasWidth = 1200,
         canvasHeight = 650,
@@ -24,21 +25,20 @@
        .attr("width", canvasWidth);
 
   // Semantic UI player serach
-  // function newPlayerSearch() {
-  //   $('.ui.search')
-  //     .search({
-  //       apiSettings: {
-  //         url: 'http://localhost:3000/v1/players/search/{query}'
-  //       },
-  //       fields: {
-  //         results : 'players',
-  //         title   : 'name',
-  //         url     : 'html_url'
-  //       },
-  //       minCharacters : 3
-  //     })
-  //   ;
-  // }
+  function newPlayerSearch() {
+    $('.ui.search')
+      .search({
+        apiSettings: {
+          url: 'http://localhost:3000/v1/players/search/{query}'
+        },
+        fields: {
+          results : 'players',
+          title   : 'full_name'
+        },
+        minCharacters : 3
+      })
+    ;
+  }
 
     function populatePlayerDropdown(){
       // Grab the template script
@@ -48,7 +48,7 @@
       var template = Handlebars.compile(source);
       var context;
 
-      $.get('http://localhost:3000/v1/players/search/smith')
+      $.get('http://localhost:3000/v1/players/search/ozzie')
         .success(function(response){
           context = {
             players: response.players
