@@ -623,8 +623,8 @@
             $('g').fadeIn(300);
             // Fill in the number of diamonds to the control card
             $('.controls .meta').html('<i class="cubes icon"></i> ' + response.data.length + ' diamonds');
-            $('.header').text(player_text);
-            $('.header').attr('data-value', player_id);
+            $('.player-name').text(player_text);
+            $('.player-name').attr('data-value', player_id);
             $('.filters').children().removeClass('disabled');
             $('.bat-pit-switch').children().removeClass('disabled');
             $('.search').dropdown('clear');
@@ -677,9 +677,9 @@
         $(this).addClass('active');
         // Capture the search term from the button that was clicked on
         var event_type = $(this).attr('data-value');
-        // Capture the player_id and text from .header on the controls
-        var player_id = $('.controls .header').attr('data-value');
-        var player_text = $('.controls .header').text();
+        // Capture the player_id and text from .player-name on the controls
+        var player_id = $('.controls .player-name').attr('data-value');
+        var player_text = $('.controls .player-name').text();
         var batOrPit = $('.bat-pit-switch').children('.active').attr('data-value');
         // Clear the diamond board first and then make the diamond request
         clearDiamondBoard(function(){
@@ -714,7 +714,7 @@
         $('g').children().remove();
         $('.meta').removeClass('warning');
         $('.controls .meta').html('<div class="ui active mini inline loader"></div>');
-        $('.controls .header').text('Loading...');
+        $('.controls .player-name').text('Loading...');
         reCenterCanvas();
         callback();
       });
