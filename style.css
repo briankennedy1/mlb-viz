@@ -1,3 +1,6 @@
+* {
+  outline: none;
+}
 .ui.card.controls {
   position: absolute;
   top: 0px;

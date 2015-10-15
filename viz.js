@@ -2,10 +2,8 @@
 (function() {
   $( document ).ready(function() {
     eventCodeButtonListener();
-    playerSearchListener();
     batPitButtonListener();
-    populatePlayerDropdown();
-    newPlayerSearch();
+    playerSearchListener();
 
     var canvasWidth = 1200,
         canvasHeight = 650,
@@ -23,43 +21,6 @@
 
     svg.attr("height", canvasHeight)
        .attr("width", canvasWidth);
-
-  // Semantic UI player serach
-  function newPlayerSearch() {
-    $('.ui.search')
-      .search({
-        apiSettings: {
-          url: 'http://localhost:3000/v1/players/search/{query}'
-        },
-        fields: {
-          results : 'players',
-          title   : 'full_name'
-        },
-        minCharacters : 3
-      })
-    ;
-  }
-
-    function populatePlayerDropdown(){
-      // Grab the template script
-      var source = $("#dropdown-template").html();
-
-      // Compile the template
-      var template = Handlebars.compile(source);
-      var context;
-
-      $.get('http://localhost:3000/v1/players/search/ozzie')
-        .success(function(response){
-          context = {
-            players: response.players
-          };
-          var html = template(context);
-          $('.dropdown .menu').append(html);
-        })
-        .error(function(response){
-          console.log(response);
-        });
-    }
 
     function drawDiamond(location, info, player, event_type, batting_or_pitching) {
       var polygonClass = 'diamondShape';
@@ -627,8 +588,8 @@
             $('.player-name').attr('data-value', player_id);
             $('.filters').children().removeClass('disabled');
             $('.bat-pit-switch').children().removeClass('disabled');
-            $('.search').dropdown('clear');
-            $('.ui.selection.dropdown').removeClass('disabled');
+            $('.ui.search .input input').val('');
+            $('.ui.search .input').removeClass('disabled');
           });
         })
         .error(function(response){
@@ -636,15 +597,14 @@
         });
     }
 
-    function playerSearchListener(){
-      $('.ui.dropdown').dropdown({
-        onChange: function(value, text, $selectedItem) {
-          if (!value) {
-            return;
-          } else {
-            // Set player info from dropdown menu
-            player_id = value;
-            player_text = $selectedItem.children().filter('.text').text();
+    // Semantic UI player serach
+    function playerSearchListener() {
+      $('.ui.search')
+        .search({
+          onSelect: function(result){
+            // Set player info from search result
+            player_id = result.player_id;
+            player_text = result.full_name;
             var event_type = $('.filters .button.active').attr('data-value');
             var batOrPit = $('.bat-pit-switch').children('.active').attr('data-value');
             // Clear the diamond board first and then make the diamond request
@@ -653,13 +613,22 @@
             });
             // Disable batting or pitching button while request is being made
             $('.bat-pit-switch').children().addClass('disabled');
-            // Disable search dropdown while request is being made
-            $('.ui.selection.dropdown').addClass('disabled');
+            // Disable search while request is being made
+            $('.ui.search .input').addClass('disabled');
             // Disable filter buttons while request is being made
             $('.filters').children().addClass('disabled');
-          }
-        }
-      });
+          },
+          apiSettings: {
+            url: 'http://localhost:3000/v1/players/search/{query}'
+          },
+          fields: {
+            results : 'players',
+            title   : 'full_name',
+            description: 'debut_year',
+          },
+          minCharacters : 4,
+        })
+      ;
     }
 
     function eventCodeButtonListener(){
