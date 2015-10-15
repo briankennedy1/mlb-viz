@@ -23,22 +23,22 @@
     svg.attr("height", canvasHeight)
        .attr("width", canvasWidth);
 
-
-  function newPlayerSearch() {
-    $('.ui.search')
-      .search({
-        apiSettings: {
-          url: 'http://localhost:3000/v1/players/search/{query}'
-        },
-        fields: {
-          results : 'players',
-          title   : 'name',
-          url     : 'html_url'
-        },
-        minCharacters : 3
-      })
-    ;
-  }
+  // Semantic UI player serach
+  // function newPlayerSearch() {
+  //   $('.ui.search')
+  //     .search({
+  //       apiSettings: {
+  //         url: 'http://localhost:3000/v1/players/search/{query}'
+  //       },
+  //       fields: {
+  //         results : 'players',
+  //         title   : 'name',
+  //         url     : 'html_url'
+  //       },
+  //       minCharacters : 3
+  //     })
+  //   ;
+  // }
 
     function populatePlayerDropdown(){
       // Grab the template script
@@ -48,13 +48,13 @@
       var template = Handlebars.compile(source);
       var context;
 
-      $.get('http://localhost:3000/v1/players')
+      $.get('http://localhost:3000/v1/players/search/smith')
         .success(function(response){
           context = {
-            players: response
+            players: response.players
           };
           var html = template(context);
-          // $('.dropdown .menu').append(html);
+          $('.dropdown .menu').append(html);
         })
         .error(function(response){
           console.log(response);
@@ -624,7 +624,7 @@
             // Fill in the number of diamonds to the control card
             $('.controls .meta').html('<i class="cubes icon"></i> ' + response.data.length + ' diamonds');
             $('.header').text(player_text);
-            $('.header').attr('data-value',player_id);
+            $('.header').attr('data-value', player_id);
             $('.filters').children().removeClass('disabled');
             $('.bat-pit-switch').children().removeClass('disabled');
             $('.search').dropdown('clear');
@@ -644,7 +644,7 @@
           } else {
             // Set player info from dropdown menu
             player_id = value;
-            player_text = text;
+            player_text = $selectedItem.children().filter('.text').text();
             var event_type = $('.filters .button.active').attr('data-value');
             var batOrPit = $('.bat-pit-switch').children('.active').attr('data-value');
             // Clear the diamond board first and then make the diamond request
