@@ -4,9 +4,10 @@
     eventCodeButtonListener();
     batPitButtonListener();
     playerSearchListener();
+    windowHeightListener();
 
     var canvasWidth = 1200,
-        canvasHeight = 650,
+        canvasHeight = $(window).height(),
         // Set the height / width of the diamond objects
         dWidth  = 75,
         dHeight = 75;
@@ -21,6 +22,12 @@
 
     svg.attr("height", canvasHeight)
        .attr("width", canvasWidth);
+
+    function windowHeightListener(){
+      $( window ).resize(function() {
+        svg.attr("height", $(window).height());
+      });
+    }
 
     function drawDiamond(location, info, player, event_type, batting_or_pitching) {
       var polygonClass = 'diamondShape';
