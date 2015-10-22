@@ -579,7 +579,7 @@
       event_type  = event_type || 'triples';
       battingOrPitching = battingOrPitching || 'batting';
 
-      var apiLocation = 'http://localhost:3000/v1/';
+      var apiLocation = 'https://mlb-event-api.herokuapp.com/v1/';
       var id_type = battingOrPitching == 'batting' ? '?bat_id=' : '?pit_id=';
       var url = apiLocation + battingOrPitching + id_type + player_id + '&event_type='+ event_type;
 
@@ -626,7 +626,7 @@
             $('.filters').children().addClass('disabled');
           },
           apiSettings: {
-            url: 'http://localhost:3000/v1/players/search/{query}'
+            url: 'https://mlb-event-api.herokuapp.com/v1/players/search/{query}'
           },
           fields: {
             results : 'players',
