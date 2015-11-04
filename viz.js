@@ -179,21 +179,21 @@
               season = info.batter_season_walk;
               game   = info.batter_game_walk;
             } else {
-              if (info.base1_run_id == player) {
+              if (info.runner1_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
                 career = info.runner1_career_stolen_base;
                 season = info.runner1_season_stolen_base;
                 game   = info.runner1_game_stolen_base;
-              } else if (info.base2_run_id == player) {
+              } else if (info.runner2_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
                 career = info.runner2_career_stolen_base;
                 season = info.runner2_season_stolen_base;
                 game   = info.runner2_game_stolen_base;
-              } else if (info.base3_run_id == player) {
+              } else if (info.runner3_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
@@ -250,33 +250,33 @@
           // Single
             big_text = '1B';
             polygonClass = 'single';
-            career = info.batter_career_single;
-            season = info.batter_season_single;
-            game   = info.batter_game_single;
+            career = info.batter_career_single ? info.batter_career_single : info.batter_career_hit;
+            season = info.batter_season_single ? info.batter_season_single : info.batter_season_hit;
+            game   = info.batter_game_single ? info.batter_game_single : info.batter_game_hit;
             break;
           case 21:
           // Double
             big_text = '2B';
             polygonClass = 'double';
-            career = info.batter_career_double;
-            season = info.batter_season_double;
-            game   = info.batter_game_double;
+            career = info.batter_career_double ? info.batter_career_double : info.batter_career_hit;
+            season = info.batter_season_double ? info.batter_season_double : info.batter_season_hit;
+            game   = info.batter_game_double ? info.batter_game_double : info.batter_game_hit;
             break;
           case 22:
           // Triple
             big_text = '3B';
             polygonClass = 'triple';
-            career = info.batter_career_triple;
-            season = info.batter_season_triple;
-            game   = info.batter_game_triple;
+            career = info.batter_career_triple ? info.batter_career_triple : info.batter_career_hit;
+            season = info.batter_season_triple ? info.batter_season_triple : info.batter_season_hit;
+            game   = info.batter_game_triple ? info.batter_game_triple : info.batter_game_hit;
             break;
           case 23:
           // Home Run
             big_text = 'HR';
             polygonClass = 'homer';
-            career = info.batter_career_home_run;
-            season = info.batter_season_home_run;
-            game   = info.batter_game_home_run;
+            career = info.batter_career_home_run ? info.batter_career_home_run : info.batter_career_hit;
+            season = info.batter_season_home_run ? info.batter_season_home_run : info.batter_season_hit;
+            game   = info.batter_game_home_run ? info.batter_game_home_run : info.batter_game_hit;
             break;
         }
       // If the data is pitching stats
@@ -630,7 +630,7 @@
           fields: {
             results : 'players',
             title   : 'full_name',
-            description: 'debut_year',
+            description : 'debut_year',
           },
           minCharacters : 4,
         })
