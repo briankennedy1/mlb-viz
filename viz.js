@@ -78,21 +78,21 @@
               season = info.pitcher_season_strikeout;
               game   = info.pitcher_game_strikeout;
             } else {
-              if (info.base1_run_id == player) {
+              if (info.runner1_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
                 career = info.runner1_career_stolen_base;
                 season = info.runner1_season_stolen_base;
                 game   = info.runner1_game_stolen_base;
-              } else if (info.base2_run_id == player) {
+              } else if (info.runner2_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
                 career = info.runner2_career_stolen_base;
                 season = info.runner2_season_stolen_base;
                 game   = info.runner2_game_stolen_base;
-              } else if (info.base3_run_id == player) {
+              } else if (info.runner3_career_stolen_base) {
                 big_text = 'SB';
                 polygonClass = 'stolen-base';
                 textClass = 'stolen-base';
@@ -107,15 +107,15 @@
             big_text = 'SB';
             polygonClass = 'stolen-base';
             textClass = 'stolen-base';
-            if (info.base1_run_id == player) {
+            if (info.runner1_career_stolen_base) {
               career = info.runner1_career_stolen_base;
               season = info.runner1_season_stolen_base;
               game   = info.runner1_game_stolen_base;
-            } else if (info.base2_run_id == player) {
+            } else if (info.runner2_career_stolen_base) {
               career = info.runner2_career_stolen_base;
               season = info.runner2_season_stolen_base;
               game   = info.runner2_game_stolen_base;
-            } else if (info.base3_run_id == player) {
+            } else if (info.runner3_career_stolen_base) {
               career = info.runner3_career_stolen_base;
               season = info.runner3_season_stolen_base;
               game   = info.runner3_game_stolen_base;
