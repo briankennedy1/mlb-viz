@@ -488,10 +488,10 @@
             game   = info.pitcher_game_home_run;
             break;
           }
-          if (info.pit_id != player) {
-            polygonClass = 'other-pitcher';
-            textClass = 'other-pitcher';
-          }
+          // if (info.pit_id != player) {
+          //   polygonClass = 'other-pitcher';
+          //   textClass = 'other-pitcher';
+          // }
 
       }
       if (career == 1) {
