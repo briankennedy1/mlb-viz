@@ -338,15 +338,23 @@
             }
             break;
           case 3:
-          // Strikeout
-              big_text = 'K';
-              polygonClass = 'strikeout';
-              career = info.pitcher_career_strikeout;
-              season = info.pitcher_season_strikeout;
-              game   = info.pitcher_game_strikeout;
+              // Strikeout
+              if (info.pitcher_career_out) {
+                big_text = 'K';
+                polygonClass = 'strikeout';
+                career = info.pitcher_career_out;
+                season = info.pitcher_season_out;
+                game   = info.pitcher_game_out;
+              } else {
+                big_text = 'K';
+                polygonClass = 'strikeout';
+                career = info.pitcher_career_strikeout;
+                season = info.pitcher_season_strikeout;
+                game   = info.pitcher_game_strikeout;
+              }
             break;
           case 4:
-          // Stolen base
+              // Stolen base
               big_text = 'SB';
               polygonClass = 'stolen-base';
               textClass = 'stolen-base';
