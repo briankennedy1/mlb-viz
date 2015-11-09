@@ -49,13 +49,13 @@
         switch (info.event_cd) {
           case 2:
           // Generic out
-            if (info.sf_fl == 'T') {
+            if (info.batter_career_sacrifice_fly) {
               big_text = 'SF';
               polygonClass = 'sacrifice-fly';
               career = info.batter_career_sacrifice_fly;
               season = info.batter_season_sacrifice_fly;
               game   = info.batter_game_sacrifice_fly;
-            } else if (info.sh_fl == 'T') {
+            } else if (info.batter_career_sacrifice_hit) {
               big_text = 'SH';
               polygonClass = 'sacrifice-hit';
               career = info.batter_career_sacrifice_hit;
@@ -171,7 +171,7 @@
             break;
           case 14:
           // Walk
-            if (info.bat_id == player) {
+            if (info.batter_career_walk) {
               big_text = 'BB';
               polygonClass = 'placeholder';
               textClass = 'placeholder';
@@ -200,6 +200,27 @@
                 career = info.runner3_career_stolen_base;
                 season = info.runner3_season_stolen_base;
                 game   = info.runner3_game_stolen_base;
+              } else if (info.runner1_career_run) {
+                big_text = 'BB';
+                polygonClass = 'placeholder';
+                textClass = 'placeholder';
+                career = info.runner1_career_run;
+                season = info.runner1_season_run;
+                game   = info.runner1_game_run;
+              } else if (info.runner2_career_run) {
+                big_text = 'BB';
+                polygonClass = 'placeholder';
+                textClass = 'placeholder';
+                career = info.runner2_career_run;
+                season = info.runner2_season_run;
+                game   = info.runner2_game_run;
+              } else if (info.runner3_career_run) {
+                big_text = 'BB';
+                polygonClass = 'placeholder';
+                textClass = 'placeholder';
+                career = info.runner3_career_run;
+                season = info.runner3_season_run;
+                game   = info.runner3_game_run;
               }
             }
             break;
@@ -208,28 +229,38 @@
             big_text = 'IBB';
             polygonClass = 'placeholder';
             textClass = 'placeholder';
+            career = info.batter_career_walk;
+            season = info.batter_season_walk;
+            game   = info.batter_game_walk;
             break;
           case 16:
           // Hit by pitch
             big_text = 'HBP';
             polygonClass = 'placeholder';
             textClass = 'placeholder';
+            career = info.batter_career_hit_by_pitch;
+            season = info.batter_season_hit_by_pitch;
+            game   = info.batter_game_hit_by_pitch;
             break;
           case 17:
           // Interference
             big_text = 'I';
             polygonClass = 'placeholder';
             textClass = 'placeholder';
+            career = 'N/A';
+            season = 'N/A';
+            game   = 'N/A';
+
             break;
           case 18:
           // Error
-            if (info.sf_fl == 'T') {
+            if (info.batter_career_sacrifice_fly) {
               big_text = 'SF';
               polygonClass = 'sacrifice-fly';
               career = info.batter_career_sacrifice_fly;
               season = info.batter_season_sacrifice_fly;
               game   = info.batter_game_sacrifice_fly;
-            } else if (info.sh_fl == 'T') {
+            } else if (info.batter_career_sacrifice_hit) {
               big_text = 'SH';
               polygonClass = 'sacrifice-hit';
               career = info.batter_career_sacrifice_hit;
@@ -283,14 +314,14 @@
       } else if (batting_or_pitching == 'pitching') {
         switch (info.event_cd) {
           case 2:
-            if (info.sf_fl == 'T') {
+            if (info.pitcher_career_sacrifice_fly) {
               // Sacrifice Fly
               big_text = 'SF';
               polygonClass = 'sacrifice-fly';
               career = info.pitcher_career_sacrifice_fly;
               season = info.pitcher_season_sacrifice_fly;
               game   = info.pitcher_game_sacrifice_fly;
-            } else if (info.sh_fl == 'T') {
+            } else if (info.pitcher_career_sacrifice_hit) {
               // Sacrifice Hit
               big_text = 'SH';
               polygonClass = 'sacrifice-hit';
