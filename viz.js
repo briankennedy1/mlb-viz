@@ -39,10 +39,8 @@
           left   = (x - dWidth/2).toString() + "," + (y + dHeight/2).toString(),
           points = top + " " + right + " " + bottom + " " + left;
 
-      var big_text, career, season, game;
       // If the data is batting stats
       if (batting_or_pitching == 'batting') {
-        // Stolen bases are included with strikeouts, so taking a step back and using a general reference to event_type.
         switch (info.event_cd) {
           case 2:
           // Generic out
@@ -56,157 +54,102 @@
             break;
           case 3:
           // Strikeout
-            if (info.bat_id == player) {
-              big_text = 'K';
-              polygonClass = 'strikeout';
-              career = info.pitcher_career_strikeout;
-              season = info.pitcher_season_strikeout;
-              game   = info.pitcher_game_strikeout;
-            } else {
-              if (info.runner1_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner1_career_stolen_base;
-                season = info.runner1_season_stolen_base;
-                game   = info.runner1_game_stolen_base;
-              } else if (info.runner2_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner2_career_stolen_base;
-                season = info.runner2_season_stolen_base;
-                game   = info.runner2_game_stolen_base;
-              } else if (info.runner3_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner3_career_stolen_base;
-                season = info.runner3_season_stolen_base;
-                game   = info.runner3_game_stolen_base;
-              }
+            if (info.runner1_career_stolen_base) {
+              diamondStyleObject = diamondStyler('sb-run1', info);
+            } else if (info.runner2_career_stolen_base) {
+              diamondStyleObject = diamondStyler('sb-run2', info);
+            } else if (info.runner3_career_stolen_base) {
+              diamondStyleObject = diamondStyler('sb-run3', info);
             }
             break;
          case 4:
             // Stolen base
-            big_text = 'SB';
-            polygonClass = 'stolen-base';
-            textClass = 'stolen-base';
             if (info.runner1_career_stolen_base) {
-              career = info.runner1_career_stolen_base;
-              season = info.runner1_season_stolen_base;
-              game   = info.runner1_game_stolen_base;
+              diamondStyleObject = diamondStyler('sb-run1', info);
             } else if (info.runner2_career_stolen_base) {
-              career = info.runner2_career_stolen_base;
-              season = info.runner2_season_stolen_base;
-              game   = info.runner2_game_stolen_base;
+              diamondStyleObject = diamondStyler('sb-run2', info);
             } else if (info.runner3_career_stolen_base) {
-              career = info.runner3_career_stolen_base;
-              season = info.runner3_season_stolen_base;
-              game   = info.runner3_game_stolen_base;
+              diamondStyleObject = diamondStyler('sb-run3', info);
             }
           break;
           case 5:
           // Defensive indifference
-            big_text = 'DI';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('di', info);
             break;
           case 6:
           // Caught Stealing
-            big_text = 'CS';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('cs', info);
             break;
           case 8:
           // Pickoff
-            big_text = 'PO';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('po', info);
             break;
           case 9:
           // Wild Pitch
-            big_text = 'WP';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('wp', info);
             break;
           case 10:
           // Passed Ball
-            big_text = 'PB';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('pb', info);
             break;
           case 11:
           // Balk
-            big_text = 'BK';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('bk', info);
             break;
           case 12:
           // Other advance/out advancing
-            big_text = 'OA';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('oa', info);
             break;
           case 13:
           // Foul Error
-            big_text = 'FE';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('fe', info);
             break;
           case 14:
           // Walk
             if (info.batter_career_walk) {
+              diamondStyleObject = diamondStyler('bb', info);
+            } else if (info.runner1_career_stolen_base) {
+              big_text = 'SB';
+              polygonClass = 'stolen-base';
+              textClass = 'stolen-base';
+              career = info.runner1_career_stolen_base;
+              season = info.runner1_season_stolen_base;
+              game   = info.runner1_game_stolen_base;
+            } else if (info.runner2_career_stolen_base) {
+              big_text = 'SB';
+              polygonClass = 'stolen-base';
+              textClass = 'stolen-base';
+              career = info.runner2_career_stolen_base;
+              season = info.runner2_season_stolen_base;
+              game   = info.runner2_game_stolen_base;
+            } else if (info.runner3_career_stolen_base) {
+              big_text = 'SB';
+              polygonClass = 'stolen-base';
+              textClass = 'stolen-base';
+              career = info.runner3_career_stolen_base;
+              season = info.runner3_season_stolen_base;
+              game   = info.runner3_game_stolen_base;
+            } else if (info.runner1_career_run) {
               big_text = 'BB';
               polygonClass = 'placeholder';
               textClass = 'placeholder';
-              career = info.batter_career_walk;
-              season = info.batter_season_walk;
-              game   = info.batter_game_walk;
-            } else {
-              if (info.runner1_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner1_career_stolen_base;
-                season = info.runner1_season_stolen_base;
-                game   = info.runner1_game_stolen_base;
-              } else if (info.runner2_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner2_career_stolen_base;
-                season = info.runner2_season_stolen_base;
-                game   = info.runner2_game_stolen_base;
-              } else if (info.runner3_career_stolen_base) {
-                big_text = 'SB';
-                polygonClass = 'stolen-base';
-                textClass = 'stolen-base';
-                career = info.runner3_career_stolen_base;
-                season = info.runner3_season_stolen_base;
-                game   = info.runner3_game_stolen_base;
-              } else if (info.runner1_career_run) {
-                big_text = 'BB';
-                polygonClass = 'placeholder';
-                textClass = 'placeholder';
-                career = info.runner1_career_run;
-                season = info.runner1_season_run;
-                game   = info.runner1_game_run;
-              } else if (info.runner2_career_run) {
-                big_text = 'BB';
-                polygonClass = 'placeholder';
-                textClass = 'placeholder';
-                career = info.runner2_career_run;
-                season = info.runner2_season_run;
-                game   = info.runner2_game_run;
-              } else if (info.runner3_career_run) {
-                big_text = 'BB';
-                polygonClass = 'placeholder';
-                textClass = 'placeholder';
-                career = info.runner3_career_run;
-                season = info.runner3_season_run;
-                game   = info.runner3_game_run;
-              }
+              career = info.runner1_career_run;
+              season = info.runner1_season_run;
+              game   = info.runner1_game_run;
+            } else if (info.runner2_career_run) {
+              big_text = 'BB';
+              polygonClass = 'placeholder';
+              textClass = 'placeholder';
+              career = info.runner2_career_run;
+              season = info.runner2_season_run;
+              game   = info.runner2_game_run;
+            } else if (info.runner3_career_run) {
+              big_text = 'BB';
+              polygonClass = 'placeholder';
+              textClass = 'placeholder';
+              career = info.runner3_career_run;
+              season = info.runner3_season_run;
+              game   = info.runner3_game_run;
             }
             break;
           case 15:
@@ -487,30 +430,31 @@
           // }
 
       }
-      if (career == 1) {
-        polygonClass = polygonClass + ' milestone';
-        diamondStyleObject.textClass = diamondStyleObject.textClass + ' milestone';
+      if (diamondStyleObject.career == 1) {
+        console.log(diamondStyleObject);
+        diamondStyleObject.polygonClass += ' milestone';
+        diamondStyleObject.textClass += ' milestone';
       }
-      if (career % 100 === 0) {
-        polygonClass = polygonClass + ' milestone';
-        diamondStyleObject.textClass = diamondStyleObject.textClass + ' milestone';
+      if (diamondStyleObject.career % 100 === 0) {
+        diamondStyleObject.polygonClass += ' milestone';
+        diamondStyleObject.textClass += ' milestone';
       }
 
-      switch (game) {
+      switch (diamondStyleObject.game) {
         case 2:
-        polygonClass = polygonClass + ' two';
+        diamondStyleObject.polygonClass += ' two';
         break;
         case 3:
-        polygonClass = polygonClass + ' three';
+        diamondStyleObject.polygonClass += ' three';
         break;
         case 4:
-        polygonClass = polygonClass + ' four';
+        diamondStyleObject.polygonClass += ' four';
         break;
         case 5:
-        polygonClass = polygonClass + ' five';
+        diamondStyleObject.polygonClass += ' five';
         break;
         case 6:
-        polygonClass = polygonClass + ' six';
+        diamondStyleObject.polygonClass += ' six';
         break;
       }
       // console.log(diamondStyleObject);
@@ -760,7 +704,39 @@
           season: info.batter_season_sacrifice,
           game: info.batter_game_sacrifice
         };
+      } else if (type == 'sb-run1' || type == 'sb-run2' || type == 'sb-run3') {
+        baseStolen = type[6];
+        career = "runner" + baseStolen + "_career_stolen_base";
+        season = "runner" + baseStolen + "_season_stolen_base";
+        game = "runner" + baseStolen + "_game_stolen_base";
+        diamondStyleObject = {
+          big_text: 'SB',
+          polygonClass: 'stolen-base',
+          textClass: 'stolen-base',
+          career: info[career],
+          season: info[season],
+          game: info[game]
+        };
+      } else if (type == 'bb') {
+        diamondStyleObject = {
+          big_text: 'BB',
+          polygonClass: 'placeholder',
+          textClass: 'placeholder',
+          career: info.batter_career_walk,
+          season: info.batter_season_walk,
+          game  : info.batter_game_walk
+        };
+      } else {
+        diamondStyleObject = {
+          big_text: type.toUpperCase(),
+          polygonClass: 'placeholder',
+          textClass: 'placeholder',
+          career: 'N/A',
+          season: 'N/A',
+          game: 'N/A'
+        };
       }
+
       // console.log(diamondStyleObject);
       return diamondStyleObject;
     }
