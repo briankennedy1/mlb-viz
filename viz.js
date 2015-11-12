@@ -132,70 +132,45 @@
             break;
           case 17:
           // Interference
-            big_text = 'I';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
-            career = 'N/A';
-            season = 'N/A';
-            game   = 'N/A';
-
+            diamondStyleObject = diamondStyler('i', info);
             break;
           case 18:
           // Error
             if (info.sf_fl == 'T') {
-              big_text = 'SF';
-              polygonClass = 'sacrifice-fly';
-              career = info.batter_career_sacrifice;
-              season = info.batter_season_sacrifice;
-              game   = info.batter_game_sacrifice;
+              diamondStyleObject = diamondStyler('sf', info);
             } else if (info.sh_fl == 'T') {
-              big_text = 'SH';
-              polygonClass = 'sacrifice-hit';
-              career = info.batter_career_sacrifice;
-              season = info.batter_season_sacrifice;
-              game   = info.batter_game_sacrifice;
+              diamondStyleObject = diamondStyler('sh', info);
             } else {
-              big_text = 'E';
-              polygonClass = 'error';
+              diamondStyleObject = diamondStyler('e', info);
             }
             break;
           case 19:
           // Fielder's Choice
-            big_text = 'FC';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            if (info.runner1_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-fc-run1', info);
+            } else if (info.runner2_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-fc-run2', info);
+            } else if (info.runner3_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-fc-run3', info);
+            } else {
+              diamondStyleObject = diamondStyler('fc', info);
+            }
             break;
           case 20:
           // Single
-            big_text = '1B';
-            polygonClass = 'single';
-            career = info.batter_career_single ? info.batter_career_single : info.batter_career_hit;
-            season = info.batter_season_single ? info.batter_season_single : info.batter_season_hit;
-            game   = info.batter_game_single ? info.batter_game_single : info.batter_game_hit;
+            diamondStyleObject = diamondStyler('1b', info);
             break;
           case 21:
           // Double
-            big_text = '2B';
-            polygonClass = 'double';
-            career = info.batter_career_double ? info.batter_career_double : info.batter_career_hit;
-            season = info.batter_season_double ? info.batter_season_double : info.batter_season_hit;
-            game   = info.batter_game_double ? info.batter_game_double : info.batter_game_hit;
+            diamondStyleObject = diamondStyler('2b', info);
             break;
           case 22:
           // Triple
-            big_text = '3B';
-            polygonClass = 'triple';
-            career = info.batter_career_triple ? info.batter_career_triple : info.batter_career_hit;
-            season = info.batter_season_triple ? info.batter_season_triple : info.batter_season_hit;
-            game   = info.batter_game_triple ? info.batter_game_triple : info.batter_game_hit;
+            diamondStyleObject = diamondStyler('3b', info);
             break;
           case 23:
           // Home Run
-            big_text = 'HR';
-            polygonClass = 'homer';
-            career = info.batter_career_home_run ? info.batter_career_home_run : info.batter_career_hit;
-            season = info.batter_season_home_run ? info.batter_season_home_run : info.batter_season_hit;
-            game   = info.batter_game_home_run ? info.batter_game_home_run : info.batter_game_hit;
+            diamondStyleObject = diamondStyler('hr', info);
             break;
         }
       // If the data is pitching stats
@@ -401,20 +376,20 @@
 
       switch (diamondStyleObject.game) {
         case 2:
-        diamondStyleObject.polygonClass += ' two';
-        break;
+          diamondStyleObject.polygonClass += ' two';
+          break;
         case 3:
-        diamondStyleObject.polygonClass += ' three';
-        break;
+          diamondStyleObject.polygonClass += ' three';
+          break;
         case 4:
-        diamondStyleObject.polygonClass += ' four';
-        break;
+          diamondStyleObject.polygonClass += ' four';
+          break;
         case 5:
-        diamondStyleObject.polygonClass += ' five';
-        break;
+          diamondStyleObject.polygonClass += ' five';
+          break;
         case 6:
-        diamondStyleObject.polygonClass += ' six';
-        break;
+          diamondStyleObject.polygonClass += ' six';
+          break;
       }
       // console.log(diamondStyleObject);
       var diamond = container.append("polygon")
@@ -707,6 +682,62 @@
           season: info.batter_season_hit_by_pitch,
           game  : info.batter_game_hit_by_pitch
         };
+      } else if (type == 'e') {
+        diamondStyleObject = {
+          big_text: type.toUpperCase(),
+          polygonClass: 'error',
+          textClass: 'placeholder',
+          career: 'N/A',
+          season: 'N/A',
+          game  : 'N/A'
+        };
+      } else if (type == 'run-scoring-fc-run1' || type == 'run-scoring-fc-run2' || type == 'run-scoring-fc-run3') {
+        scoredFrom = type.slice(-1);
+        career = "runner" + scoredFrom + "_career_run";
+        season = "runner" + scoredFrom + "_season_run";
+        game = "runner" + scoredFrom + "_game_run";
+
+        diamondStyleObject = {
+          big_text: 'FC',
+          polygonClass: 'placeholder',
+          textClass: 'placeholder',
+          career: info[career],
+          season: info[season],
+          game  : info[game]
+        };
+      } else if (type == '1b' || type == '2b' || type == '3b' || type == 'hr') {
+        var typeHash = {
+          '1b': 'single',
+          '2b': 'double',
+          '3b': 'triple',
+          'hr': 'home_run',
+        };
+        var hitType;
+        if (info.batter_career_hit) {
+          hitType = 'hit';
+        } else {
+          hitType = typeHash[type];
+        }
+        career = "batter_career_" + hitType;
+        season = "batter_season_" + hitType;
+        game   = "batter_game_" + hitType;
+
+        diamondStyleObject = {
+          big_text: type.toUpperCase(),
+          polygonClass: typeHash[type],
+          textClass: 'diamondText',
+          career: info[career],
+          season: info[season],
+          game  : info[game]
+        };
+
+
+            // big_text = '1B';
+            // polygonClass = 'single';
+            // career = info.batter_career_single ? info.batter_career_single : info.batter_career_hit;
+            // season = info.batter_season_single ? info.batter_season_single : info.batter_season_hit;
+            // game   = info.batter_game_single ? info.batter_game_single : info.batter_game_hit;
+
       } else {
         diamondStyleObject = {
           big_text: type.toUpperCase(),
@@ -714,7 +745,7 @@
           textClass: 'placeholder',
           career: 'N/A',
           season: 'N/A',
-          game: 'N/A'
+          game  : 'N/A'
         };
       }
 
