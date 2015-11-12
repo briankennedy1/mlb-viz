@@ -30,9 +30,6 @@
     }
 
     function drawDiamond(location, info, player, event_type, batting_or_pitching) {
-      var polygonClass = 'diamondShape';
-      var textClass = 'diamondText';
-
       var x = location[0],
           y = location[1];
 
@@ -50,23 +47,11 @@
           case 2:
           // Generic out
             if (info.sf_fl == 'T') {
-              big_text = 'SF';
-              polygonClass = 'sacrifice-fly';
-              career = info.batter_career_sacrifice_fly;
-              season = info.batter_season_sacrifice_fly;
-              game   = info.batter_game_sacrifice_fly;
+              diamondStyleObject = diamondStyler('sf', info);
             } else if (info.sh_fl == 'T') {
-              big_text = 'SH';
-              polygonClass = 'sacrifice-hit';
-              career = info.batter_career_sacrifice_hit;
-              season = info.batter_season_sacrifice_hit;
-              game   = info.batter_game_sacrifice_hit;
+              diamondStyleObject = diamondStyler('sh', info);
             } else {
-              big_text = 'O';
-              polygonClass = 'out';
-              // career = info.batter_career_sacrifice_hit;
-              // season = info.batter_season_sacrifice_hit;
-              // game   = info.batter_game_sacrifice_hit;
+              diamondStyleObject = diamondStyler('out', info);
             }
             break;
           case 3:
@@ -254,18 +239,18 @@
             break;
           case 18:
           // Error
-            if (info.batter_career_sacrifice_fly) {
+            if (info.sf_fl == 'T') {
               big_text = 'SF';
               polygonClass = 'sacrifice-fly';
-              career = info.batter_career_sacrifice_fly;
-              season = info.batter_season_sacrifice_fly;
-              game   = info.batter_game_sacrifice_fly;
-            } else if (info.batter_career_sacrifice_hit) {
+              career = info.batter_career_sacrifice;
+              season = info.batter_season_sacrifice;
+              game   = info.batter_game_sacrifice;
+            } else if (info.sh_fl == 'T') {
               big_text = 'SH';
               polygonClass = 'sacrifice-hit';
-              career = info.batter_career_sacrifice_hit;
-              season = info.batter_season_sacrifice_hit;
-              game   = info.batter_game_sacrifice_hit;
+              career = info.batter_career_sacrifice;
+              season = info.batter_season_sacrifice;
+              game   = info.batter_game_sacrifice;
             } else {
               big_text = 'E';
               polygonClass = 'error';
@@ -504,11 +489,11 @@
       }
       if (career == 1) {
         polygonClass = polygonClass + ' milestone';
-        textClass = textClass + ' milestone';
+        diamondStyleObject.textClass = diamondStyleObject.textClass + ' milestone';
       }
       if (career % 100 === 0) {
         polygonClass = polygonClass + ' milestone';
-        textClass = textClass + ' milestone';
+        diamondStyleObject.textClass = diamondStyleObject.textClass + ' milestone';
       }
 
       switch (game) {
@@ -528,30 +513,30 @@
         polygonClass = polygonClass + ' six';
         break;
       }
-
+      // console.log(diamondStyleObject);
       var diamond = container.append("polygon")
                         .attr("points", points)
-                        .attr('class', polygonClass);
+                        .attr('class', diamondStyleObject.polygonClass);
                       container.append("text")
                           .attr("x", x-(dWidth/7.5))
                           .attr("y", y+(dHeight/2.2))
-                          .text(big_text)
-                          .attr('class','big-name ' + textClass);
+                          .text(diamondStyleObject.big_text)
+                          .attr('class','big-name ' + diamondStyleObject.textClass);
                       container.append("text")
                           .attr("x", x-(dWidth/11))
                           .attr("y", y+(dHeight*0.6))
-                          .attr('class', textClass)
-                          .text('C: ' + career );
+                          .attr('class', diamondStyleObject.textClass)
+                          .text('C: ' + diamondStyleObject.career );
                       container.append("text")
                           .attr("x", x-(dWidth/11))
                           .attr("y", y+(dHeight*0.7))
-                          .attr('class', textClass)
-                          .text('S: ' + season);
+                          .attr('class', diamondStyleObject.textClass)
+                          .text('S: ' + diamondStyleObject.season);
                       container.append("text")
                           .attr("x", x-(dWidth/11))
                           .attr("y", y+(dHeight*0.8))
-                          .attr('class', textClass)
-                          .text('G: ' + game);
+                          .attr('class', diamondStyleObject.textClass)
+                          .text('G: ' + diamondStyleObject.game);
       return diamond;
     }
 
@@ -742,6 +727,42 @@
       container.attr("transform", "translate(0,0)scale(1)");
       zoom.translate([0,0]);
       zoom.scale(1);
+    }
+
+    function diamondStyler(type, info) {
+      // default polygonClass: 'diamondShape',
+      //         textClass: 'diamondText',
+
+      if (type == 'sf') {
+        diamondStyleObject = {
+          big_text: 'SF',
+          polygonClass: 'sacrifice-fly',
+          textClass: 'diamondText',
+          career: info.batter_career_sacrifice,
+          season: info.batter_season_sacrifice,
+          game: info.batter_game_sacrifice
+        };
+      } else if (type == 'sh') {
+        diamondStyleObject = {
+          big_text: 'SH',
+          polygonClass: 'sacrifice-hit',
+          textClass: 'diamondText',
+          career: info.batter_career_sacrifice,
+          season: info.batter_season_sacrifice,
+          game: info.batter_game_sacrifice
+        };
+      } else if (type == 'out') {
+        diamondStyleObject = {
+          big_text: 'O',
+          polygonClass: 'out',
+          textClass: 'diamondText',
+          career: info.batter_career_sacrifice,
+          season: info.batter_season_sacrifice,
+          game: info.batter_game_sacrifice
+        };
+      }
+      // console.log(diamondStyleObject);
+      return diamondStyleObject;
     }
 
     requestDiamonds();
