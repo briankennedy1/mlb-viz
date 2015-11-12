@@ -49,13 +49,13 @@
         switch (info.event_cd) {
           case 2:
           // Generic out
-            if (info.batter_career_sacrifice_fly) {
+            if (info.sf_fl == 'T') {
               big_text = 'SF';
               polygonClass = 'sacrifice-fly';
               career = info.batter_career_sacrifice_fly;
               season = info.batter_season_sacrifice_fly;
               game   = info.batter_game_sacrifice_fly;
-            } else if (info.batter_career_sacrifice_hit) {
+            } else if (info.sh_fl == 'T') {
               big_text = 'SH';
               polygonClass = 'sacrifice-hit';
               career = info.batter_career_sacrifice_hit;
