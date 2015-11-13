@@ -366,8 +366,8 @@
                           // degrees, so row width and number of diamonds in
                           // a row are the same.
             diamondsInRow = 0, // Current count of diamonds in row
-            rowStart      = [$(window).width()/2,50], // Where to start the row.
-            coords        = [$(window).width()/2,50]; // Where to start the first diamond.
+            rowStart      = [$(window).width()/2, 50], // Where to start the row.
+            coords        = [$(window).width()/2, 50]; // Where to start the first diamond.
 
         while (diamondCount <= diamondsToBuildCount) {
           while (diamondsInRow < rowWidth) {
