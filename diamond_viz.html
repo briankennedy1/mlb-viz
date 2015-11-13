@@ -44,16 +44,10 @@
               </div>
               <div class="ui center aligned row margin-top-10">
                 <div class="two ui buttons filters">
-                  <div class="ui button" data-value="sacrifices">Sacrifices</div>
+                  <div class="ui button" data-value="walks">Walks</div>
                   <div class="ui button" data-value="runs">Runs</div>
                 </div>
               </div>
-              <div class="ui center aligned row margin-top-10">
-                <div class="one ui buttons filters">
-                  <div class="ui button" data-value="walks">Walks</div>
-                </div>
-              </div>
-
             </div>
             <div class="pitching-buttons">
               <div class="ui center aligned row margin-top-10">
@@ -73,31 +67,30 @@
                 </div>
               </div>
             </div>
+            <div class="ui fluid search margin-top-10">
+              <div class="ui fluid icon input">
+                <input class="prompt" type="text" placeholder="Search Players">
+                <i class="search icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+            <div class="ui center aligned row margin-top-10">
+              <div class="ui buttons bat-pit-switch">
+                <button class="ui button active" data-value="batting">Batting</button>
+                <div class="or"></div>
+                <button class="ui button" data-value="pitching">Pitching</button>
+              </div>
+            </div>
           </div>
     </div>
     <div class="extra content">
-      <div class="ui fluid search">
-        <div class="ui fluid icon input">
-          <input class="prompt" type="text" placeholder="Search Players">
-          <i class="search icon"></i>
-        </div>
-        <div class="results"></div>
-      </div>
-      <div class="ui center aligned row margin-top-10">
-        <div class="ui buttons bat-pit-switch">
-          <button class="ui button active" data-value="batting">Batting</button>
-          <div class="or"></div>
-          <button class="ui button" data-value="pitching">Pitching</button>
-        </div>
-      </div>
-      <div class="ui center aligned row margin-top-10">
+      <div class="ui center aligned">
         <p>
-          C: Career<br/>
-          S: Season<br/>
-          G: Game<br/>
+          C: Career,
+          S: Season,
+          G: Game
         </p>
       </div>
-
     </div>
   </div>
   <script language="javascript" type="text/javascript" src="viz.js"></script>
