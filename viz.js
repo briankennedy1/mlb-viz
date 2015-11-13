@@ -4,9 +4,9 @@
     eventCodeButtonListener();
     batPitButtonListener();
     playerSearchListener();
-    windowHeightListener();
+    windowResizeListener();
 
-    var canvasWidth = 1200,
+    var canvasWidth = $(window).width(),
         canvasHeight = $(window).height(),
         // Set the height / width of the diamond objects
         dWidth  = 75,
@@ -23,9 +23,10 @@
     svg.attr("height", canvasHeight)
        .attr("width", canvasWidth);
 
-    function windowHeightListener(){
+    function windowResizeListener(){
       $( window ).resize(function() {
         svg.attr("height", $(window).height());
+        svg.attr("width", $(window).width());
       });
     }
 
