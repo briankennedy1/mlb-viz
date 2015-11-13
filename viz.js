@@ -232,69 +232,37 @@
             break;
           case 16:
           // Hit by pitch
-            big_text = 'HBP';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
-            career = info.pitcher_career_hit_by_pitch;
-            season = info.pitcher_season_hit_by_pitch;
-            game   = info.pitcher_game_hit_by_pitch;
+            diamondStyleObject = diamondStyler('hbp', info, battingOrPitching);
             break;
           case 17:
           // Interference
-            big_text = 'I';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('i', info, battingOrPitching);
             break;
           case 18:
           // Error
-            big_text = 'E';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('e', info, battingOrPitching);
             break;
           case 19:
           // Fielder's Choice
-            big_text = 'FC';
-            polygonClass = 'placeholder';
-            textClass = 'placeholder';
+            diamondStyleObject = diamondStyler('fc', info, battingOrPitching);
             break;
           case 20:
           // Single
-            big_text = '1B';
-            polygonClass = 'single';
-            career = info.pitcher_career_single;
-            season = info.pitcher_season_single;
-            game   = info.pitcher_game_single;
+            diamondStyleObject = diamondStyler('1b', info, battingOrPitching);
             break;
           case 21:
           // Double
-            big_text = '2B';
-            polygonClass = 'double';
-            career = info.pitcher_career_double;
-            season = info.pitcher_season_double;
-            game   = info.pitcher_game_double;
+            diamondStyleObject = diamondStyler('2b', info, battingOrPitching);
             break;
           case 22:
           // Triple
-            big_text = '3B';
-            polygonClass = 'triple';
-            career = info.pitcher_career_triple;
-            season = info.pitcher_season_triple;
-            game   = info.pitcher_game_triple;
+            diamondStyleObject = diamondStyler('3b', info, battingOrPitching);
             break;
           case 23:
           // Home Run
-            big_text = 'HR';
-            polygonClass = 'homer';
-            career = info.pitcher_career_home_run;
-            season = info.pitcher_season_home_run;
-            game   = info.pitcher_game_home_run;
+            diamondStyleObject = diamondStyler('hr', info, battingOrPitching);
             break;
           }
-          // if (info.pit_id != player) {
-          //   polygonClass = 'other-pitcher';
-          //   textClass = 'other-pitcher';
-          // }
-
       }
       if (diamondStyleObject.career == 1) {
         diamondStyleObject.polygonClass += ' milestone';
@@ -662,6 +630,12 @@
           game  : info[game]
         };
       } else if (type == '1b' || type == '2b' || type == '3b' || type == 'hr') {
+        var batPitString;
+        if (battingOrPitching == 'batting') {
+          batPitString = 'batter';
+        } else {
+          batPitString = 'pitcher';
+        }
         var typeHash = {
           '1b': 'single',
           '2b': 'double',
@@ -674,9 +648,9 @@
         } else {
           hitType = typeHash[type];
         }
-        career = "batter_career_" + hitType;
-        season = "batter_season_" + hitType;
-        game   = "batter_game_" + hitType;
+        career = batPitString + "_career_" + hitType;
+        season = batPitString + "_season_" + hitType;
+        game   = batPitString + "_game_" + hitType;
 
         diamondStyleObject = {
           big_text: type.toUpperCase(),
