@@ -273,7 +273,7 @@
         diamondStyleObject.textClass += ' milestone';
       }
 
-      switch (diamondStyleObject.game) {
+      switch (diamondStyleObject.game && battingOrPitching == 'batting') {
         case 2:
           diamondStyleObject.polygonClass += ' two';
           break;
@@ -643,7 +643,7 @@
           'hr': 'home_run',
         };
         var hitType;
-        if (info.batter_career_hit) {
+        if (info.batter_career_hit || info.pitcher_career_hit) {
           hitType = 'hit';
         } else {
           hitType = typeHash[type];
