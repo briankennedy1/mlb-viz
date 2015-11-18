@@ -36,7 +36,7 @@
 
       var top    = x.toString() + "," + y.toString(),
           right  = (x + dWidth/2).toString() + "," + (y + dHeight/2).toString(),
-          bottom = x + "," + (y+dHeight).toString(),
+          bottom = x + "," + (y + dHeight).toString(),
           left   = (x - dWidth/2).toString() + "," + (y + dHeight/2).toString(),
           points = top + " " + right + " " + bottom + " " + left;
 
@@ -107,7 +107,13 @@
             break;
           case 14:
           // Walk
-            if (info.batter_career_walk) {
+            if (info.runner1_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-bb-run1', info, battingOrPitching);
+            } else if (info.runner2_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-bb-run2', info, battingOrPitching);
+            } else if (info.runner3_career_run) {
+              diamondStyleObject = diamondStyler('run-scoring-bb-run3', info, battingOrPitching);
+            } else if (info.batter_career_walk) {
               diamondStyleObject = diamondStyler('bb', info, battingOrPitching);
             } else if (info.runner1_career_stolen_base) {
               diamondStyleObject = diamondStyler('sb-run1', info, battingOrPitching);
@@ -115,12 +121,6 @@
               diamondStyleObject = diamondStyler('sb-run2', info, battingOrPitching);
             } else if (info.runner3_career_stolen_base) {
               diamondStyleObject = diamondStyler('sb-run3', info, battingOrPitching);
-            } else if (info.runner1_career_run) {
-              diamondStyleObject = diamondStyler('run-scoring-bb-run1', info, battingOrPitching);
-            } else if (info.runner2_career_run) {
-              diamondStyleObject = diamondStyler('run-scoring-bb-run2', info, battingOrPitching);
-            } else if (info.runner3_career_run) {
-              diamondStyleObject = diamondStyler('run-scoring-bb-run3', info, battingOrPitching);
             }
             break;
           case 15:
@@ -264,6 +264,7 @@
             break;
           }
       }
+
       if (diamondStyleObject.career == 1) {
         diamondStyleObject.polygonClass += ' milestone';
         diamondStyleObject.textClass += ' milestone';
@@ -303,7 +304,7 @@
                           .attr("x", x-(dWidth/11))
                           .attr("y", y+(dHeight*0.6))
                           .attr('class', diamondStyleObject.textClass)
-                          .text('C: ' + diamondStyleObject.career );
+                          .text('C: ' + diamondStyleObject.career);
                       container.append("text")
                           .attr("x", x-(dWidth/11))
                           .attr("y", y+(dHeight*0.7))
@@ -375,9 +376,9 @@
     }
 
     function requestDiamonds(player_id, player_text, event_type, battingOrPitching) {
-      player_id   = player_id || 'hamib001';
+      player_id   = player_id   || 'hamib001';
       player_text = player_text || 'Billy Hamilton';
-      event_type  = event_type || 'triples';
+      event_type  = event_type  || 'triples';
       battingOrPitching = battingOrPitching || 'batting';
 
       var apiLocation = 'https://mlb-event-api.herokuapp.com/v1/players/';
@@ -429,8 +430,8 @@
             url: 'https://mlb-event-api.herokuapp.com/v1/players/search/{query}'
           },
           fields: {
-            results : 'players',
-            title   : 'full_name',
+            results     : 'players',
+            title       : 'full_name',
             description : 'debut_year',
           },
           minCharacters : 4,
@@ -557,7 +558,7 @@
         baseStolen = type.slice(-1);
         career = "runner" + baseStolen + "_career_stolen_base";
         season = "runner" + baseStolen + "_season_stolen_base";
-        game = "runner" + baseStolen + "_game_stolen_base";
+        game   = "runner" + baseStolen + "_game_stolen_base";
         diamondStyleObject = {
           big_text: 'SB',
           polygonClass: 'stolen-base',
