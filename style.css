@@ -43,6 +43,11 @@ svg text.stolen-base.milestone {
     fill: white;
     color: white;
 }
+svg text.strikeout.milestone {
+    fill: white;
+    color: white;
+}
+
 svg text.strikeout {
     fill: black;
     color: black;

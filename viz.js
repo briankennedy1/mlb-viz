@@ -287,7 +287,7 @@
     function diamondStyler(info, battingOrPitching) {
       // default polygonClass: 'diamondShape',
       //         textClass: 'diamondText',
-      var career, season, game, diamondStyleObject, type, hitType;
+      var career, season, game, diamondStyleObject, type, hitType, bigText;
 
       var typeHash = {
         2: ['O', 'out'],
@@ -411,7 +411,7 @@
         };
 
       } else if (info.batter_career_walk) {
-      var bigText = info.event_cd == 15 ? 'IBB' : 'BB';
+        bigText = info.event_cd == 15 ? 'IBB' : 'BB';
         diamondStyleObject = {
           big_text: bigText,
           polygonClass: 'placeholder',
@@ -419,6 +419,25 @@
           career: info.batter_career_walk,
           season: info.batter_season_walk,
           game  : info.batter_game_walk
+        };
+      } else if (info.pitcher_career_walk) {
+        bigText = info.event_cd == 15 ? 'IBB' : 'BB';
+        diamondStyleObject = {
+          big_text: bigText,
+          polygonClass: 'placeholder',
+          textClass: 'placeholder',
+          career: info.pitcher_career_walk,
+          season: info.pitcher_season_walk,
+          game  : info.pitcher_game_walk
+        };
+      } else if (info.pitcher_career_strikeout) {
+        diamondStyleObject = {
+          big_text: 'K',
+          polygonClass: 'strikeout',
+          textClass: 'strikeout',
+          career: info.pitcher_career_strikeout,
+          season: info.pitcher_season_strikeout,
+          game  : info.pitcher_game_strikeout
         };
       } else if (info.batter_career_run ||
                  info.runner1_career_run ||
