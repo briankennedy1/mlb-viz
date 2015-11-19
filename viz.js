@@ -448,28 +448,25 @@
 
         type = typeHash[info.event_cd] || 'N/A';
 
-        if (type == 'O') {
+        if (type[0] == 'O') {
           if (info.sf_fl == 'T'){
             type = typeHash.sf;
           } else if (info.sh_fl == 'T'){
             type = typeHash.sh;
           }
         }
-        // This is not very dry yet.
-        // One idea:
-        // var test = "info." + position + "_" + timeline + "_run";
         career = info.batter_career_run ||
-                   info.runner1_career_run ||
-                   info.runner2_career_run ||
-                   info.runner3_career_run;
+                 info.runner1_career_run ||
+                 info.runner2_career_run ||
+                 info.runner3_career_run;
         season = info.batter_season_run ||
-                   info.runner1_season_run ||
-                   info.runner2_season_run ||
-                   info.runner3_season_run;
+                 info.runner1_season_run ||
+                 info.runner2_season_run ||
+                 info.runner3_season_run;
         game = info.batter_game_run ||
-                   info.runner1_game_run ||
-                   info.runner2_game_run ||
-                   info.runner3_game_run;
+                 info.runner1_game_run ||
+                 info.runner2_game_run ||
+                 info.runner3_game_run;
 
         diamondStyleObject = {
           big_text: type[0],
