@@ -359,6 +359,32 @@
           season: info[season],
           game  : info[game]
         };
+      } else if (info.pitcher_career_hit ||
+                 info.pitcher_career_single ||
+                 info.pitcher_career_double ||
+                 info.pitcher_career_triple ||
+                 info.pitcher_career_home_run) {
+
+        type = typeHash[info.event_cd];
+
+        if (info.pitcher_career_hit) {
+          hitType = 'hit';
+        } else {
+          hitType = type[1];
+        }
+
+        career = "pitcher_career_" + hitType;
+        season = "pitcher_season_" + hitType;
+        game   = "pitcher_game_"   + hitType;
+
+        diamondStyleObject = {
+          big_text: type[0],
+          polygonClass: type[1],
+          textClass: 'diamondText',
+          career: info[career],
+          season: info[season],
+          game  : info[game]
+        };
       } else if (info.runner1_career_stolen_base ||
                  info.runner2_career_stolen_base ||
                  info.runner3_career_stolen_base) {
