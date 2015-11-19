@@ -287,7 +287,31 @@
     function diamondStyler(info, battingOrPitching) {
       // default polygonClass: 'diamondShape',
       //         textClass: 'diamondText',
-      var career, season, game, diamondStyleObject;
+      var career, season, game, diamondStyleObject, type, hitType;
+
+      var typeHash = {
+        2: ['O', 'out'],
+        3: ['K', 'strikeout'],
+        4: ['SB', 'stolen-base'],
+        5: ['DI', 'placeholder'],
+        6: ['CS', 'placeholder'],
+        8: ['PO', 'placeholder'],
+        9: ['WP', 'placeholder'],
+        10: ['PB', 'placeholder'],
+        11: ['BK', 'placeholder'],
+        12: ['OA', 'placeholder'],
+        13: ['FE', 'placeholder'],
+        14: ['BB', 'placeholder'],
+        15: ['IBB', 'placeholder'],
+        16: ['HBP', 'placeholder'],
+        17: ['I', 'placeholder'],
+        18: ['E', 'error'],
+        19: ['FC', 'placeholder'],
+        20: ['1B', 'single'],
+        21: ['2B', 'double'],
+        22: ['3B', 'triple'],
+        23: ['HR', 'home_run'],
+      };
 
       if (info.batter_career_sacrifice) {
         if (info.sf_fl == 'T') {
@@ -315,18 +339,8 @@
                  info.batter_career_triple ||
                  info.batter_career_home_run) {
 
-        var type;
-        if (info.event_cd == 20) {
-          type = ['1B', 'single'];
-        } else if (info.event_cd == 21) {
-          type = ['2B', 'double'];
-        } else if (info.event_cd == 22) {
-          type = ['3B', 'triple'];
-        } else if (info.event_cd == 23) {
-          type = ['HR', 'home_run'];
-        }
+        type = typeHash[info.event_cd];
 
-        var hitType;
         if (info.batter_career_hit) {
           hitType = 'hit';
         } else {
@@ -370,6 +384,47 @@
           game  : info[game]
         };
 
+      } else if (info.batter_career_walk) {
+      var bigText = info.event_cd == 15 ? 'IBB' : 'BB';
+        diamondStyleObject = {
+          big_text: bigText,
+          polygonClass: 'placeholder',
+          textClass: 'placeholder',
+          career: info.batter_career_walk,
+          season: info.batter_season_walk,
+          game  : info.batter_game_walk
+        };
+      } else if (info.batter_career_run ||
+                 info.runner1_career_run ||
+                 info.runner2_career_run ||
+                 info.runner3_career_run) {
+
+        type = typeHash[info.event_cd] || 'N/A';
+
+        // This is not very dry yet.
+        // One idea:
+        // var test = "info." + position + "_" + timeline + "_run";
+        career = info.batter_career_run ||
+                   info.runner1_career_run ||
+                   info.runner2_career_run ||
+                   info.runner3_career_run;
+        season = info.batter_season_run ||
+                   info.runner1_season_run ||
+                   info.runner2_season_run ||
+                   info.runner3_season_run;
+        game = info.batter_game_run ||
+                   info.runner1_game_run ||
+                   info.runner2_game_run ||
+                   info.runner3_game_run;
+
+        diamondStyleObject = {
+          big_text: type[0],
+          polygonClass: type[1],
+          textClass: type[1],
+          career: career,
+          season: season,
+          game  : game
+        };
       }
 
       return diamondStyleObject;
