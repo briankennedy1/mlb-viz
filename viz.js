@@ -51,7 +51,7 @@
         diamondStyleObject.textClass += ' milestone';
       }
 
-      switch (diamondStyleObject.game && battingOrPitching == 'batting') {
+      switch (diamondStyleObject.game) {
         case 2:
           diamondStyleObject.polygonClass += ' two';
           break;
@@ -68,7 +68,7 @@
           diamondStyleObject.polygonClass += ' six';
           break;
       }
-      // console.log(diamondStyleObject);
+
       var diamond = container.append("polygon")
                         .attr("points", points)
                         .attr('class', diamondStyleObject.polygonClass);
@@ -345,6 +345,31 @@
           season: info[season],
           game  : info[game]
         };
+      } else if (info.runner1_career_stolen_base ||
+                 info.runner2_career_stolen_base ||
+                 info.runner3_career_stolen_base) {
+        var startingBase;
+        if (info.runner1_career_stolen_base) {
+          startingBase = 1;
+        } else if (info.runner2_career_stolen_base) {
+          startingBase = 2;
+        } else if (info.runner3_career_stolen_base) {
+          startingBase = 3;
+        }
+
+        career = "runner" + startingBase + "_career_stolen_base";
+        season = "runner" + startingBase + "_season_stolen_base";
+        game   = "runner" + startingBase + "_game_stolen_base";
+
+        diamondStyleObject = {
+          big_text: 'SB',
+          polygonClass: 'stolen-base',
+          textClass: 'stolen-base',
+          career: info[career],
+          season: info[season],
+          game  : info[game]
+        };
+
       }
 
       return diamondStyleObject;
