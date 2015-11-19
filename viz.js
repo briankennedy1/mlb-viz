@@ -311,6 +311,8 @@
         21: ['2B', 'double'],
         22: ['3B', 'triple'],
         23: ['HR', 'home_run'],
+        sf: ['SF', 'sacrifice-fly'],
+        sh: ['SH', 'sacrifice-hit']
       };
 
       if (info.batter_career_sacrifice) {
@@ -446,6 +448,13 @@
 
         type = typeHash[info.event_cd] || 'N/A';
 
+        if (type == 'O') {
+          if (info.sf_fl == 'T'){
+            type = typeHash.sf;
+          } else if (info.sh_fl == 'T'){
+            type = typeHash.sh;
+          }
+        }
         // This is not very dry yet.
         // One idea:
         // var test = "info." + position + "_" + timeline + "_run";
